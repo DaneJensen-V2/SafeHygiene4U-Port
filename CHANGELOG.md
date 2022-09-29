@@ -23,3 +23,4 @@ Each version should:
 
 - CHANGELOG file
 - gitignore file
+- [09/29/2022] -- Austin -- Iniital implementation of the "Hello World" mobile app using React Native & Expo Go.
