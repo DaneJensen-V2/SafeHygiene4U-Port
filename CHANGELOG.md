@@ -21,6 +21,7 @@ Each version should:
 
 ### Added
 
+- "Getting started" instructions
 - "Hello World" implementation using React Native & Expo Go.
 - CHANGELOG file
 - gitignore file
