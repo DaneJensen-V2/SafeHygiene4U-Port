@@ -20,8 +20,11 @@ Each version should:
 ## [Unreleased]
 
 ### Added
-
+- Testing using Jest, react-test-renderer, and RNTL
 - "Getting started" instructions
 - "Hello World" implementation using React Native & Expo Go.
 - CHANGELOG file
 - gitignore file
+
+### Changed
+- Added the src/ & tst/ folder structue, updated reference to app root

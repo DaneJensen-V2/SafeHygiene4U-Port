@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { registerRootComponent } from 'expo';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import HelloWorldText from '../components/hello-world-text';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Text>Hello World!!!</Text>
+      <HelloWorldText />
       <StatusBar style="auto" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// This line, along with the referece to this component in app.json,
-// allows us to register this component as the app root. 
-export default registerRootComponent(App);
+export default App;

@@ -4,22 +4,31 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --tunnel",
+    "test": "jest --config=jest.config.js --expand",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^0.17.0",
+    "babel-preset-expo": "~9.2.0",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
-    "react-native": "0.69.6",
-    "react-native-web": "~0.18.7",
     "react-dom": "18.0.0",
-    "@expo/webpack-config": "^0.17.0"
+    "react-native": "0.69.6",
+    "react-native-web": "~0.18.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "expo-cli": "^6.0.6"
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.4",
+    "@types/jest": "^29.1.2",
+    "babel-jest": "^29.2.0",
+    "@testing-library/jest-native": "^5.0.0",
+    "@testing-library/react-native": "^11.2.0",
+    "expo-cli": "^6.0.6",
+    "react-test-renderer": "~18.0.0",
+    "jest-expo": "^46.0.1"
   },
   "private": true
 }

@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "entryPoint":"./src/app/App.js",
+    "entryPoint":"./src/index.js",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
