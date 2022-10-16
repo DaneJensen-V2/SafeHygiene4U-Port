@@ -49,3 +49,35 @@ This is how we will test the app before publishing.
 - run `npm start` to start the server. 
 
 And that's it! Scan the QR code that appears in the terminal with your phone and you're ready to go!
+
+### Testing
+
+For any changes we make, an effort for reaonable unit testing should be made (80%+ line coverage when possible). You can run tests using the `npm test` command, which also produces a coverage report. Feel free to make new testing scripts for various kinds of output you'd like to see. 
+
+Some info on the testing libraries:
+- Jest is the framework we will use to create unit tests.
+- react-test-renderer will be used to headlessly render the components for unit tests, since it plays well with React Native
+- Also installed is React-Native-Testing-Library, which allows us to write *really cool* tests and simulate our components being interacted with.
+  - Examples of BOTH of these types of tests being written are available under `tst/components/` with testing done for the `Hello World` text component.
+- Quick link to Jest `expect` assertions [here](https://jestjs.io/docs/expect)
+  - [Expect matchers you can use with RNTL-based tests](https://www.npmjs.com/package/@testing-library/jest-native#matchers)
+- [react-test-renderer](https://reactjs.org/docs/test-renderer.html);
+- [React Native Testing Library exmaple](https://testing-library.com/docs/react-native-testing-library/example-intro)
+  - [Firing events on components using Screen and FireEvent](https://testing-library.com/docs/dom-testing-library/api-events/)
+
+### Writing Tests
+The format for writing tests and organizing them into different test suites is really simple. 
+Use `describe()` to describe the component being tested, and `it()` statements to describe behavior of the component. 
+`beforeEach()`, `afterEach()`, `beforeAll()`, `afterAll()` , etc statements can be used to perform setup functions that are common to every test you want to run.
+Both of these functions accept a string (to describe the test) and a callback function that runs the test, i.e:
+
+```
+describe('the XYZ component', () => {
+	beforeEach( async () => {
+		await //some async setup task, like rendering.
+	});
+	it('should do something', () => {
+		//write the test to make sure that it does something here.
+	});
+})
+```

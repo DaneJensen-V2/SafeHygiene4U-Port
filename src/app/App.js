@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import HelloWorldText from '../components/hello-world-text';
 
-export default function App() {
+const App = () => {
   return (
     <View style={styles.container}>
-      <Text>Hello World!!!</Text>
+      <HelloWorldText />
       <StatusBar style="auto" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -18,3 +19,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
