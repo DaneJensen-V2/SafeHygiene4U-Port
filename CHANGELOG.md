@@ -20,6 +20,9 @@ Each version should:
 ## [Unreleased]
 
 ### Added
+- Added Repurpost gradient background
+- Added Hello World Button (NativeBase component) + testing
+- Integrated app with NativeBase
 - Testing using Jest, react-test-renderer, and RNTL
 - "Getting started" instructions
 - "Hello World" implementation using React Native & Expo Go.
