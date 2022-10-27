@@ -7,7 +7,7 @@ const HelloWorldButton = () => {
     // not all variables need to be declared as state, but valuable data
     // members should be 
     const [pressCount, setPressCount] = useState(0);
-    const [buttonMessage, setButtonMessage] = useState("I have been press 0 times!");
+    const [buttonMessage, setButtonMessage] = useState("I have been pressed 0 times!");
 
     //method to handle the logic when button is pressed
     const handleButtonPress = () => {
@@ -15,21 +15,20 @@ const HelloWorldButton = () => {
         setPressCount(pressCount + 1);
     };
 
-    //method to return the string that the button displays
+    //method to update the string that the button displays
     //note: this is a contrived example but included to show how we could
     //      incorporate more complex behavior using JSX. This function gets called 
-    //      every time its dependnecy array changes, and once at component render.
+    //      every time its dependency array changes, and once at component render.
     useEffect(
         // the first argument is a callback function that can be called every time
         // something specific changes (its dependencies)
         () => {
             if (pressCount == 1) {
-                setButtonMessage(`I have been clicked ${pressCount} time!`);
-            } else setButtonMessage(`I have been clicked ${pressCount} times!`);
+                setButtonMessage(`I have been pressed ${pressCount} time!`);
+            } else setButtonMessage(`I have been pressed ${pressCount} times!`);
         },
         //this argument is the dependency array of the effect, meaning that the
-        //function passed above will be called every time the pressCount variable is updated
-        //triggering the above function
+        //function passed above will be executed every time the pressCount variable is updated
         [pressCount]
     );
 
@@ -41,8 +40,8 @@ const HelloWorldButton = () => {
             onPress={handleButtonPress}
             testID='hello-world-button'>
                 <Text style={styles.buttonText}>
-                    { // the content of the button updates every time the "buttonMessage"
-                    // state changes. 
+                    { //the text content of the button updates every time the "buttonMessage"
+                    //state changes. In fact, it will rerender anytime ANY of its state changes
                     buttonMessage
                     }
                 </Text>

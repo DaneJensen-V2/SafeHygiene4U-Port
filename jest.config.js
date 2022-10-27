@@ -8,6 +8,7 @@ const config = {
     collectCoverageFrom: [
       "**/src/**",
       "!**/src/index.js",
+      "!**/src/utils/ui-constants.js",
       "!**/coverage/**",
       "!**/node_modules/**",
       "!**/babel.config.js",

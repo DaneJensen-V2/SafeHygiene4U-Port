@@ -6,7 +6,7 @@ import { act } from 'react-test-renderer';
 describe('Hello World button', () => {
     // silly logic to "mock" the expected button behavior
     const getMessage = (numClicks) => 
-    `I have been clicked ${numClicks} time${numClicks == 1 ? '' : 's'}!`;
+    `I have been pressed ${numClicks} time${numClicks == 1 ? '' : 's'}!`;
 
     // arrange
     // render a "fresh" version of the component before each test
