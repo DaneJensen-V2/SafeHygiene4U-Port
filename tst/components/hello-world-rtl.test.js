@@ -8,7 +8,7 @@ describe('Hello World Component (rtl-rendered)', () => {
     // render a "fresh" version of the component before each test
     beforeEach(async () => {
         await rtlRender(<HelloWorldText />);
-    })
+    });
 
     it('should be rendered on the screen', async () => {
         // arrange

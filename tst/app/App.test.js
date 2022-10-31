@@ -1,13 +1,12 @@
-import { create } from 'react-test-renderer';
-import  App from '../../src/app/App';
-import { View } from 'react-native';
+import  { App } from '../../src/app/App';
+import { createWithContext } from '../utils/test-utils';
 
 describe('Main app component', () => {
     let baseRender, testInstance;
-
+    
     // arrange
     beforeEach(async () => {
-        baseRender = create(<App/>);
+        baseRender = createWithContext(<App />);
         testInstance = baseRender.root;
     });
 
@@ -25,6 +24,6 @@ describe('Main app component', () => {
         const view = testInstance.findByType("View");
 
         // assert
-        expect(view.children).toHaveLength(2);
+        expect(view.children).toHaveLength(4);
     });
 });
