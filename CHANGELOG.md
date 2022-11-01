@@ -30,4 +30,5 @@ Each version should:
 - gitignore file
 
 ### Changed
+- Updated NativeBase version to fix tests
 - Added the src/ & tst/ folder structue, updated reference to app root
