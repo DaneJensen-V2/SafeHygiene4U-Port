@@ -20,6 +20,7 @@ Each version should:
 ## [Unreleased]
 
 ### Added
+- Added Splash Screen to App
 - Added Repurpost gradient background
 - Added Hello World Button (NativeBase component) + testing
 - Integrated app with NativeBase
