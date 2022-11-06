@@ -7,6 +7,10 @@ import { NativeBaseProvider } from 'native-base';
 import RepurpostBrandTheme from '../context/repurpost-brand-theme';
 import RepurpostGradient from '../components/background-gradient';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import customFonts from '../data/custom-fonts';
+import CustomFontDemo from '../components/custom-font-demo';
+import CustomFontDemoTheme from '../components/custom-font-demo-theme';
 
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
@@ -22,6 +26,9 @@ const App = () => {
     const prepare = async () => {
       try {
         //do some async tasks
+
+        // load in custom fonts
+        await Font.loadAsync(customFonts);
       }
       catch {
         //catch any errors
@@ -55,7 +62,9 @@ const App = () => {
         <View style={styles.container}>
           <RepurpostGradient />
           <HelloWorldText />
-          <HelloWorldButton /> 
+          <CustomFontDemo />
+          <CustomFontDemoTheme /> 
+          <HelloWorldButton />
           <StatusBar style="auto" />
       </View>
   );
@@ -67,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
 
 const AppWithContext = () => {
