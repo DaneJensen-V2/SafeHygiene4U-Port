@@ -4,8 +4,8 @@ import { Text, StyleSheet } from 'react-native';
 const CustomFontDemo = () => {
   return (
     <Container>
-      <Text style={styles.heading}>Hello World!!!</Text>
-      <Text style={styles.body}>Hello World!!!</Text>
+      <Text style={styles.heading}>This text is in Poppins-Regular</Text>
+      <Text style={styles.body}>This text is in Nunito-Regular</Text>
     </Container>
   );
 };

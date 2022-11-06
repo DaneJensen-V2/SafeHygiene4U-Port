@@ -18,31 +18,25 @@ const RepurpostBrandTheme = extendTheme({
       catskill_white: "#EAF0F6"
     },
     fontConfig: {
-      //define font sizes
+      //define font weight
       Poppins: {
         400: {
           normal: 'Poppins-Regular',
           italic: 'Poppins-Italic',
         },
-        500: {
-          normal: 'Poppins-Medium',
-          italic: 'Poppins-MediumItalic',
-        },
         600: {
           normal: 'Poppins-SemiBold',
-          italic: 'Poppins-SemiBoldItalic',
         },
         700: {
           normal: 'Poppins-Bold',
-          italic: 'Poppins-BoldItalic',
         },
       },
     },
     fonts: {
       //defines fonts being used
-      heading: 'Nunito',
-      body: 'Nunito',
-      mono: 'Nunito',
+      heading: 'Poppins',
+      body: 'Poppins',
+      mono: 'Poppins',
     },
     config: {
       dependencies: {
