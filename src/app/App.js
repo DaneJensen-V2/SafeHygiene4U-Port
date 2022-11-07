@@ -7,10 +7,9 @@ import { NativeBaseProvider } from 'native-base';
 import RepurpostBrandTheme from '../context/repurpost-brand-theme';
 import RepurpostGradient from '../components/background-gradient';
 import * as SplashScreen from 'expo-splash-screen';
+import { Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
 import * as Font from 'expo-font';
-import customFonts from '../data/custom-fonts';
-import CustomFontDemo from '../components/custom-font-demo';
-import CustomFontDemoTheme from '../components/custom-font-demo-theme';
 
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
@@ -26,9 +25,10 @@ const App = () => {
     const prepare = async () => {
       try {
         //do some async tasks
-
-        // load in custom fonts
-        await Font.loadAsync(customFonts);
+        // load custom fonts
+        await Font.loadAsync({
+          Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold, Nunito_400Regular, Nunito_700Bold,
+        });
       }
       catch {
         //catch any errors
