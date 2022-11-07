@@ -2,6 +2,7 @@ import { rtlRender } from '../utils/test-utils';
 import { screen } from '@testing-library/react-native';
 import HelloWorldText from '../../src/components/hello-world-text';
 import { HELLO_WORLD_TEXT } from '../utils/test-constants';
+import { fontNames } from '../../src/utils/ui-constants';
 
 describe('Hello World Component (rtl-rendered)', () => {
     // arrange
@@ -25,5 +26,15 @@ describe('Hello World Component (rtl-rendered)', () => {
 
         // assert
         expect(textComponent).toHaveTextContent(HELLO_WORLD_TEXT);
+    });
+
+    it('should have the Poppins font', async () => {
+        // arrange
+        const textComponent = await screen.findByTestId('hello-world-text');
+
+        // assert
+        expect(textComponent).toHaveStyle({
+            fontFamily: fontNames.Poppins_Bold,
+        })
     });
 });

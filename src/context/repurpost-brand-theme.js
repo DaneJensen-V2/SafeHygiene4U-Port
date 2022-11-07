@@ -17,12 +17,6 @@ const RepurpostBrandTheme = extendTheme({
       white: "#FFFFFF",
       catskill_white: "#EAF0F6"
     },
-    fonts: {
-      //TODO
-    },
-    fontSizes: {
-      //TODO
-    },
     config: {
       dependencies: {
         // linear gradient dependency, if we want to 
