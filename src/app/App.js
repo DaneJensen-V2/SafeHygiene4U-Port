@@ -7,8 +7,15 @@ import { NativeBaseProvider } from 'native-base';
 import RepurpostBrandTheme from '../context/repurpost-brand-theme';
 import RepurpostGradient from '../components/background-gradient';
 import * as SplashScreen from 'expo-splash-screen';
-import { Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
-import { Nunito_400Regular, Nunito_700Bold } from '@expo-google-fonts/nunito';
+import { 
+  Poppins_400Regular, 
+  Poppins_600SemiBold, 
+  Poppins_700Bold 
+} from '@expo-google-fonts/poppins';
+import { 
+  Nunito_400Regular, 
+  Nunito_700Bold 
+} from '@expo-google-fonts/nunito';
 import * as Font from 'expo-font';
 
 // keep the splash screen visible until we have completed all async processing
@@ -24,10 +31,13 @@ const App = () => {
     // load in preferences, etc.
     const prepare = async () => {
       try {
-        //do some async tasks
         // load custom fonts
         await Font.loadAsync({
-          Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold, Nunito_400Regular, Nunito_700Bold,
+          Poppins_400Regular, 
+          Poppins_600SemiBold, 
+          Poppins_700Bold, 
+          Nunito_400Regular, 
+          Nunito_700Bold,
         });
       }
       catch {

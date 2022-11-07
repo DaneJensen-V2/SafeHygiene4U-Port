@@ -12,6 +12,15 @@ const colors = {
     catskill_white: "#EAF0F6",
 };
 
+const fontNames = {
+    Poppins_Regular: 'Poppins_400Regular',
+    Poppins_SemiBold: 'Poppins_600SemiBold',
+    Poppins_Bold: 'Poppins_700Bold',
+    Nunito_Regular: 'Nunito_400Regular',
+    Nunito_Bold: 'Nunito_700Bold',
+};
+
 module.exports = {
     colors,
+    fontNames,
 }
