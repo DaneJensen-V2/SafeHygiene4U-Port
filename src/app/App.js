@@ -62,8 +62,6 @@ const App = () => {
         <View style={styles.container}>
           <RepurpostGradient />
           <HelloWorldText />
-          <CustomFontDemo />
-          <CustomFontDemoTheme /> 
           <HelloWorldButton />
           <StatusBar style="auto" />
       </View>

@@ -17,27 +17,6 @@ const RepurpostBrandTheme = extendTheme({
       white: "#FFFFFF",
       catskill_white: "#EAF0F6"
     },
-    fontConfig: {
-      //define font weight
-      Poppins: {
-        400: {
-          normal: 'Poppins-Regular',
-          italic: 'Poppins-Italic',
-        },
-        600: {
-          normal: 'Poppins-SemiBold',
-        },
-        700: {
-          normal: 'Poppins-Bold',
-        },
-      },
-    },
-    fonts: {
-      //defines fonts being used
-      heading: 'Poppins',
-      body: 'Poppins',
-      mono: 'Poppins',
-    },
     config: {
       dependencies: {
         // linear gradient dependency, if we want to 
