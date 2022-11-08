@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import HelloWorldText from '../components/hello-world-text';
-import HelloWorldButton from '../components/hello-world-button';
+import React, { useEffect, useState, useContext } from 'react';
 import { NativeBaseProvider } from 'native-base';
 import RepurpostBrandTheme from '../context/repurpost-brand-theme';
-import RepurpostGradient from '../components/background-gradient';
 import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { MainNavigator } from '../navigation/MainNavigator';
+import { AuthNavigator } from '../navigation/AuthNavigator';
+import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
+
 import { 
   Poppins_400Regular, 
   Poppins_600SemiBold, 
@@ -14,15 +14,19 @@ import {
 } from '@expo-google-fonts/poppins';
 import { 
   Nunito_400Regular, 
+  Nunito_500Medium,
   Nunito_700Bold 
 } from '@expo-google-fonts/nunito';
 import * as Font from 'expo-font';
 
+
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
 
+
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
+  const { isAuthenticated } = useContext(AuthenticationContext);
 
   useEffect(() => {
     // define a function to load resources that we'll need.
@@ -36,7 +40,8 @@ const App = () => {
           Poppins_400Regular, 
           Poppins_600SemiBold, 
           Poppins_700Bold, 
-          Nunito_400Regular, 
+          Nunito_400Regular,
+          Nunito_500Medium, 
           Nunito_700Bold,
         });
       }
@@ -69,29 +74,22 @@ const App = () => {
 
   // otherwise, return the actual app content
   return (
-        <View style={styles.container}>
-          <RepurpostGradient />
-          <HelloWorldText />
-          <HelloWorldButton />
-          <StatusBar style="auto" />
-      </View>
+    <> 
+    {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+    </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 const AppWithContext = () => {
   return (
-    <NativeBaseProvider theme={RepurpostBrandTheme}>
-      <App />
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <AuthenticationContextProvider>
+       <NativeBaseProvider theme={RepurpostBrandTheme}>
+         <App />
+       </NativeBaseProvider>
+      </AuthenticationContextProvider>
+    </NavigationContainer>
+
   )
 };
 

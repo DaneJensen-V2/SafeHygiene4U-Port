@@ -15,7 +15,8 @@ const RepurpostBrandTheme = extendTheme({
       ebony_clay: "#253342",
       pickled_bluewood: "#33475B",
       white: "#FFFFFF",
-      catskill_white: "#EAF0F6"
+      catskill_white: "#EAF0F6",
+      light_gray: "#798693",
     },
     config: {
       dependencies: {
