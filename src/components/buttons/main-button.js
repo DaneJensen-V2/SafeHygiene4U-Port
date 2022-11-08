@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Button, Container } from 'native-base';
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 import {textStyles} from '../../styles/Styles'
 
 
@@ -14,12 +13,6 @@ const MainButton = ({text, onPress, bgColor}) => {
         onPress()
     };
 
-    useEffect(
-        () => {
-            
-        },
- 
-    );
 
     return (
         <Container>

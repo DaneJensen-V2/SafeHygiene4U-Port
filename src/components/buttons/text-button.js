@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
 import { Button, Container, theme } from 'native-base';
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 
 
 //A button that consists of purely text, more subtle than the main button
@@ -12,13 +11,6 @@ const TextButton = ({text, onPress, textStyle}) => {
         console.log(text);
         onPress()
     };
-
-    useEffect(
-        () => {
-            
-        },
- 
-    );
 
     return (
         <Container>
