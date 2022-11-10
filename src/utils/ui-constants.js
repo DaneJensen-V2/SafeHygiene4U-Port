@@ -10,6 +10,7 @@ const colors = {
     pickled_bluewood: "#33475B",
     white: "#FFFFFF",
     catskill_white: "#EAF0F6",
+    light_gray: "#798693",
 };
 
 const fontNames = {
@@ -18,6 +19,7 @@ const fontNames = {
     Poppins_Bold: 'Poppins_700Bold',
     Nunito_Regular: 'Nunito_400Regular',
     Nunito_Bold: 'Nunito_700Bold',
+    Nunito_Medium : 'Nunito_500Medium',
 };
 
 module.exports = {
