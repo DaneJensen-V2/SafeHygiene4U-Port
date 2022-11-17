@@ -6,6 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
 import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { 
   Poppins_400Regular, 
@@ -18,7 +20,6 @@ import {
   Nunito_700Bold 
 } from '@expo-google-fonts/nunito';
 import * as Font from 'expo-font';
-
 
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
@@ -34,6 +35,7 @@ const App = () => {
     // but in the future, we'll use this function to check login state,
     // load in preferences, etc.
     const prepare = async () => {
+      library.add(faEnvelope);
       try {
         // load custom fonts
         await Font.loadAsync({

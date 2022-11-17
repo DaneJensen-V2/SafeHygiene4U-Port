@@ -9,6 +9,7 @@ import { colors } from "../utils/ui-constants";
 import TextButton from "../components/buttons/text-button";
 import MainButton from "../components/buttons/main-button";
 import { AuthenticationContext } from "../context/AuthenticationContext";
+import TextBox from "../components/input/text-box";
 
 //Shell for the "Login" auth screen
 export const Login = ({}) =>{
@@ -31,6 +32,7 @@ export const Login = ({}) =>{
     <View style={styles.container}>
       <RepurpostGradient />
       <View style={styles.loginCard}>
+        <TextBox/>
         <MainButton text="Sign In" onPress={Login} bgColor={colors.robin_egg_blue}/>
         <TextButton text="Forgot Password" onPress={forgotPassword} textStyle={textStyles.gray_text_button}/>
         <TextButton text="Create an account" onPress={createAccount} textStyle={textStyles.robin_text_button}/>
