@@ -5,10 +5,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
-import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
+import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core'
-
 import { 
   Poppins_400Regular, 
   Poppins_600SemiBold, 
@@ -21,13 +20,14 @@ import {
 } from '@expo-google-fonts/nunito';
 import * as Font from 'expo-font';
 
+
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
 
 
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     // define a function to load resources that we'll need.
@@ -46,9 +46,22 @@ const App = () => {
           Nunito_500Medium, 
           Nunito_700Bold,
         });
+
+        // load in icons
+        library.add(faEnvelope);
+
+        // TO-DO -- Check to see if persisted auth tokens exist
+        // IF yes, Refresh the access token
+        // if no, user not authenticated.
+        
       }
-      catch {
+      catch (error) {
         //catch any errors
+        switch (error.message) {
+          default:
+            console.error('Encountered an unexpected error at the root leve.', error.stack, error.message);
+            break;
+        }
       }
       finally {
         // App is ready to render, so state is updated
@@ -77,7 +90,7 @@ const App = () => {
   // otherwise, return the actual app content
   return (
     <> 
-    {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+    { isAuthenticated ? <MainNavigator /> : <AuthNavigator /> }
     </>
   );
 };
@@ -91,8 +104,7 @@ const AppWithContext = () => {
        </NativeBaseProvider>
       </AuthenticationContextProvider>
     </NavigationContainer>
-
-  )
+  );
 };
 
 export default AppWithContext;

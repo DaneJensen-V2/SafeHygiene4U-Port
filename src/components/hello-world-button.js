@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Container } from 'native-base';
 import { StyleSheet, Text } from 'react-native';
 
+
 const HelloWorldButton = () => {
     // state and setter function to keep track of button press count
     // not all variables need to be declared as state, but valuable data
@@ -10,7 +11,7 @@ const HelloWorldButton = () => {
     const [buttonMessage, setButtonMessage] = useState("I have been pressed 0 times!");
 
     //method to handle the logic when button is pressed
-    const handleButtonPress = () => {
+    const handleButtonPress = async () => {
         console.log(`Button clicked. New click count is ${pressCount + 1}`);
         setPressCount(pressCount + 1);
     };

@@ -22,7 +22,15 @@ const fontNames = {
     Nunito_Medium : 'Nunito_500Medium',
 };
 
+const authenticationConstants = {
+    userEmail: 'USER_EMAIL',
+    userInfo: 'USER_INFO',
+    accessToken: 'ACCESS_TOKEN',
+    refreshToken: 'REFRESH_TOKEN',
+};
+
 module.exports = {
     colors,
     fontNames,
-}
+    authenticationConstants,
+};
