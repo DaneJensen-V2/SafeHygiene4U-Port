@@ -1,4 +1,4 @@
-
+import { useAuth } from "../context/AuthenticationContext";
 /**
  * Make an unauthenticated request against some host
  * @param {object} headers 
@@ -46,7 +46,7 @@ host = 'NO_DESTINATION_SET',
     const { 
         isAuthenticated,
         accessToken, 
-    } = useContext(AuthenticationContext);
+    } = useAuth();
 
     if (!isAuthenticated)
         throw new Error('Attempt to make authenticated request from unauthenticated context.');
