@@ -7,12 +7,12 @@ import {textStyles} from '../styles/Styles'
 import { colors } from "../utils/ui-constants";
 import TextButton from "../components/buttons/text-button";
 import MainButton from "../components/buttons/main-button";
-import { AuthenticationContext } from "../context/AuthenticationContext";
+import { useAuth } from "../context/AuthenticationContext";
 
 //Shell for the "Login" auth screen
 export const Register = ({}) =>{
 
-  const {onLogin} = useContext(AuthenticationContext);
+  const {onLogin} = useAuth();
   const navigation = useNavigation();
     //REPLACE WITH AUTH
     const signUp = () => {

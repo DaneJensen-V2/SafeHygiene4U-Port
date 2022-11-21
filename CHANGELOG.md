@@ -20,7 +20,8 @@ Each version should:
 ## [Unreleased]
 
 ### Added
-- Added Splash Screen to App
+- Added Navigation system and basic auth
+- Added Splash Screen to 
 - Added Repurpost gradient background
 - Added Hello World Button (NativeBase component) + testing
 - Integrated app with NativeBase
@@ -31,5 +32,6 @@ Each version should:
 - gitignore file
 
 ### Changed
+- Enhanced authentication system with request library.
 - Updated NativeBase version to fix tests
 - Added the src/ & tst/ folder structue, updated reference to app root

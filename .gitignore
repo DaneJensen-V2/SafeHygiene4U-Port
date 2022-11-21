@@ -70,3 +70,4 @@ coverage/**
 # Framework
 .expo
 .expo-shared
+.vscode/settings.json
