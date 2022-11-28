@@ -4,10 +4,8 @@ import React, {
   useContext 
 } from 'react';
 import {
-  getPersistedAuthTokens,
-  getRefreshedToken,
   getAuthTokensLogin,
-} from '../utils/authentication';
+} from '../utils/pre-auth-utils';
 import { ERROR_TYPES } from '../utils/constants';
 
 const AuthenticationContext = createContext();

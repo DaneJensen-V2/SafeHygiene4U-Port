@@ -40,10 +40,7 @@ export const Main = () =>{
       <Text>
         AccessToken: {accessToken} {'\n\n'} sessionID: {sessionID}
       </Text> 
-      <Text>
-        Login credentials: {`\nEmail: ${testEmail}`} {`\nPassword: ${`\n${testPassword}`}`}
-      </Text>  
-      <MainButton text='Actually log in ;)' onPress ={Login} bgColor = {colors.medium_purple} /> 
+      <MainButton text='Make Login Request' onPress ={Login} bgColor = {colors.medium_purple} /> 
       <MainButton text='Navigate to the Next Screen' onPress ={navToDetails} bgColor = {colors.medium_purple} />
       <MainButton text="Logout" onPress={Logout} bgColor={colors.ebony_clay}/>
       <StatusBar style="auto" />
@@ -58,6 +55,3 @@ export const Main = () =>{
       justifyContent: 'center',
     }
   });
-
-  
-

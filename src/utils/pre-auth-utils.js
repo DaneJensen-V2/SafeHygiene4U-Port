@@ -6,23 +6,7 @@ import {
  } from './constants';
 import {
     makeUnauthenticatedRequest,
-} from './request';
-
-/**
- * Function to get the access and refresh tokens from the User's secure storage, if they exist. 
- */
-const getPersistedAuthTokens = async () => {
-    //TO-DO
-    //const accessToken = await SecureStore.getItemAsync(auth.accessToken);
-    //const refreshToken = await SecureStore.getItemAsync(auth.refreshToken);
-};
-
-/**
- * Function to get a refreshed access token from Repurpost.
- */
-const getRefreshedToken = async () => {
-
-}
+} from './request-unauthenticated';
 
 /**
  * Function to retreive auth tokens from Repurpost backend
@@ -63,6 +47,4 @@ const getAuthTokensLogin = async (email, password) => {
 
 module.exports = {
     getAuthTokensLogin,
-    getPersistedAuthTokens,
-    getRefreshedToken,
 };
