@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, Dimensions} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
 import RepurpostGradient from '../components/background-gradient';
 import { useNavigation } from '@react-navigation/native';
-import {textStyles} from '../styles/Styles'
+import { textStyles } from '../styles/Styles'
 import { colors } from "../utils/ui-constants";
 import TextButton from "../components/buttons/text-button";
 import MainButton from "../components/buttons/main-button";
