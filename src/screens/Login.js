@@ -8,6 +8,7 @@ import {textStyles} from '../styles/Styles'
 import { colors } from "../utils/ui-constants";
 import TextButton from "../components/buttons/text-button";
 import MainButton from "../components/buttons/main-button";
+import LoginForm from "../components/forms/login-form";
 import { AuthenticationContext } from "../context/AuthenticationContext";
 
 //Shell for the "Login" auth screen
@@ -30,12 +31,13 @@ export const Login = ({}) =>{
     return (
     <View style={styles.container}>
       <RepurpostGradient />
-      <View style={styles.loginCard}>
+      <LoginForm />
+      {/* <View style={styles.loginCard}>
         <MainButton text="Sign In" onPress={Login} bgColor={colors.robin_egg_blue}/>
         <TextButton text="Forgot Password" onPress={forgotPassword} textStyle={textStyles.gray_text_button}/>
         <TextButton text="Create an account" onPress={createAccount} textStyle={textStyles.robin_text_button}/>
         <StatusBar style="auto" />
-      </View>
+      </View> */}
    </View>
     );
   }

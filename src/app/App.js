@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
 import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { 
   Poppins_400Regular, 
@@ -17,6 +18,14 @@ import {
   Nunito_500Medium,
   Nunito_700Bold 
 } from '@expo-google-fonts/nunito';
+import {
+  faEnvelope, 
+  faCircleXmark,
+  faEye,
+  faEyeSlash,
+  faUser,
+} from '@fortawesome/free-regular-svg-icons';
+
 import * as Font from 'expo-font';
 
 
@@ -35,6 +44,15 @@ const App = () => {
     // load in preferences, etc.
     const prepare = async () => {
       try {
+        // load icons
+        library.add(...[
+          faEnvelope,
+          faCircleXmark,
+          faEye,
+          faEyeSlash,
+          faUser,
+        ]);
+
         // load custom fonts
         await Font.loadAsync({
           Poppins_400Regular, 
