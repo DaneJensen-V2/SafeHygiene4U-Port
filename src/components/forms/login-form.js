@@ -1,7 +1,12 @@
 import React from 'react';
-import { FormControl, VStack, Input, Button, Square, Icon, WarningOutlineIcon, Pressable } from 'native-base';
+import { FormControl, VStack, Input, Square, Icon, WarningOutlineIcon, Pressable, Image } from 'native-base';
+import { StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { icons } from '../../utils/ui-constants';
+import { icons, colors } from '../../utils/ui-constants';
+import { textStyles } from '../../styles/Styles';
+import MainButton from '../buttons/main-button';
+import TextButton from '../buttons/text-button';
+import Logo from '../../../assets/logo-full.png';
 import * as EmailValidator from 'email-validator';
 
 
@@ -40,31 +45,59 @@ const LoginForm = () => {
   };
 
   return (
-    <Square width='80%' height='50%' bg='white' rounded='md' alignItems='center'>
-      <VStack width='80%' alignItems='center'>
-        <FormControl isRequired isInvalid={'email' in errors}>
-          <Input InputLeftElement={<Icon as={<FontAwesomeIcon icon={icons.envelope}/>}/>} placeholder='Email' onChangeText={value => setData({ ...formData, email: value})} />
-          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />} _text={{ fontSize: 'xs' }} >
+    <Square width='80%' height='50%' bg='white' rounded='lg' alignItems='center'>
+      <VStack style={loginStyles.container} width='100%' alignItems='center'>
+        <Image style={loginStyles.logo} source={Logo} alt='Logo' />
+        <FormControl style={loginStyles.formControl} isRequired isInvalid={'email' in errors}>
+          <Input
+          style={textStyles.body}
+          InputLeftElement={<Icon as={<FontAwesomeIcon icon={icons.envelope} size={30} color={colors.light_gray} transform='shrink-5 right-2' />} />}
+          placeholder='Email' 
+          onChangeText={value => setData({ ...formData, email: value})} />
+          <FormControl.ErrorMessage style={textStyles.body} leftIcon={<WarningOutlineIcon size="sm" />} _text={ textStyles.body }>
             {errors.email}
           </FormControl.ErrorMessage>
         </FormControl>
-        <FormControl isRequired isInvalid={'password' in errors}>
-        <Input 
-        type={show ? "text" : "password"}
-        InputLeftElement={<Icon as={<FontAwesomeIcon icon={icons.user}/>}/>} 
-        InputRightElement={<Pressable onPress={() => setShow(!show)}><Icon as={<FontAwesomeIcon icon={show ? icons.eye : icons.eyeSlash}/>}/></Pressable>} 
-        placeholder='Password' onChangeText={value => setData({ ...formData, password: value})} />
-          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />} _text={{ fontSize: 'xs' }} >
+        <FormControl style={loginStyles.formControl} isRequired isInvalid={'password' in errors}>
+          <Input
+          style={textStyles.body} 
+          type={show ? "text" : "password"}
+          InputLeftElement={<Icon as={<FontAwesomeIcon icon={icons.user} size={30} color={colors.light_gray} transform='shrink-5 right-2' />}/>} 
+          InputRightElement={<Pressable onPress={() => setShow(!show)}><Icon as={<FontAwesomeIcon icon={show ? icons.eye : icons.eyeSlash} size={30} color={colors.light_gray} transform='shrink-5 left-2' />}/></Pressable>} 
+          placeholder='Password' onChangeText={value => setData({ ...formData, password: value})} />
+          <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="sm" />} _text={ textStyles.body } >
             {errors.password}
           </FormControl.ErrorMessage>
         </FormControl>
-        <Button onPress={onSubmit}>
-          Login
-        </Button>
+        <MainButton style={loginStyles.mainButton} text="Sign In" onPress={onSubmit} bgColor={colors.robin_egg_blue}/>
+        <TextButton style={loginStyles.textButton} text="Forgot Password" onPress='' textStyle={textStyles.gray_text_button}/>
+        <TextButton style={loginStyles.textButton} text="Create an account" onPress='' textStyle={textStyles.robin_text_button}/>
       </VStack>
     </Square>
     
   );
 };
+
+const loginStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative',
+  },
+  textButton: {
+    flex: 1
+  },
+  mainButton: {
+    flex: 1
+  },
+  formControl: {
+    flex: 1,
+    paddingHorizontal: 25
+  },
+  logo: {
+    flex: 2,
+    width: '75%',
+    resizeMode: 'contain',
+  }
+});
 
 export default LoginForm;

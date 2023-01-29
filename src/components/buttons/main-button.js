@@ -1,6 +1,6 @@
 import { Button, Container } from 'native-base';
 import { Text } from 'react-native';
-import {textStyles} from '../../styles/Styles'
+import { textStyles } from '../../styles/Styles';
 
 
 //Main button that was used in UI Mocks, has rounded corners and bold white text 
@@ -24,10 +24,10 @@ const MainButton = ({text, onPress, bgColor}) => {
             marginBottom={2}
             marginTop={2}
             height = {50}
-            width = {275}
+            width = {200}
             onPress={handleButtonPress}
             testID='main-button'>
-                <Text style={textStyles.heading}>
+                <Text style={textStyles.white_text_button}>
                     {
                     text
                     }
