@@ -6,7 +6,16 @@ import React, {
 import {
   getAuthTokensLogin,
 } from '../utils/pre-auth-utils';
-import { ERROR_TYPES } from '../utils/constants';
+import {
+  saveAuthTokensToSecureStore,
+  removeAuthTokensFromSecureStore,
+  getSecureKeys,
+  getRefreshedToken,
+} from '../utils/post-auth-utils';
+import { 
+  ERROR_TYPES,
+  SECURE_STORE_KEYS,
+ } from '../utils/constants';
 
 const AuthenticationContext = createContext();
 
@@ -25,10 +34,9 @@ export const AuthenticationContextProvider = ({ children }) => {
           refreshToken,
           sessionID
         } = await getAuthTokensLogin(email, password);
-      
+        saveAuthTokensToSecureStore(accessToken, refreshToken);
         setAccessToken(accessToken);
         setSessionID(sessionID);
-        //TO-DO -- save refresh token to the secure store
         //TO-DO -- make call to get user info and store it in user object. 
   
         setIsAuthenticated(true);
@@ -61,10 +69,37 @@ export const AuthenticationContextProvider = ({ children }) => {
         setAccessToken('');
         setSessionID('');
         setUserobject({});
-        //TO-DO -- Implement the rest of the functionality
+        await removeAuthTokensFromSecureStore();
+        //TODO -- Implement the rest of the functionality
         // remove the user's refresh token
         // delete local user data
         // anything else?
+      };
+
+      const onAppOpen = async () => {
+        // Check if user has a refresh token in secure store
+        // This will tell us if they have previously logged in.
+        const refreshTokenData = 
+          await getSecureKeys([SECURE_STORE_KEYS.REFRESH_TOKEN]);
+        const refreshToken = refreshTokenData[SECURE_STORE_KEYS.REFRESH_TOKEN]
+
+        if (!!refreshToken) {
+          console.log(`refresh token found! Authenticating user...`)
+          // if the token is found in the secure store, authenticate the user
+          // and refresh the access token
+          setIsAuthenticated(true);
+          const newAcecssToken = await getRefreshedToken(refreshToken);
+          setAccessToken(newAcecssToken);
+          setSessionID('');
+          //TODO: Get user object from secure store and load it into context. 
+        }
+        else {
+          console.log(`refresh token not found! Setting user unauthenticated...`)
+
+          //otherwise, ensure that that the user isn't authenticated.
+          setIsAuthenticated(false);
+        }
+
       };
 
       //method to fake authentication during testing
@@ -79,6 +114,7 @@ export const AuthenticationContextProvider = ({ children }) => {
             userObject: userObject,
             onLogin,
             onLogout,
+            onAppOpen,
             fakeLogin,
           }}
         >
