@@ -5,7 +5,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
-import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
+import { 
+  AuthenticationContextProvider, 
+  useAuth 
+} from '../context/AuthenticationContext';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { 
@@ -24,10 +27,12 @@ import * as Font from 'expo-font';
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
 
-
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { 
+    isAuthenticated, 
+    onAppOpen, 
+  } = useAuth();
 
   useEffect(() => {
     // define a function to load resources that we'll need.
@@ -50,20 +55,23 @@ const App = () => {
         // load in icons
         library.add(faEnvelope);
 
-        // TO-DO -- Check to see if persisted auth tokens exist
-        // IF yes, Refresh the access token
+        // Check to see if persisted auth tokens exist
+        // IF yes, Refresh the access token and log user in.
         // if no, user not authenticated.
+        await onAppOpen();
         
-      }
-      catch (error) {
+      } catch (error) {
         //catch any errors
         switch (error.message) {
           default:
-            console.error('Encountered an unexpected error at the root leve.', error.stack, error.message);
+            console.error(
+              "Encountered an unexpected error at the root level.",
+              error.stack,
+              error.message
+            );
             break;
         }
-      }
-      finally {
+      } finally {
         // App is ready to render, so state is updated
         setAppIsReady(true);
       }
