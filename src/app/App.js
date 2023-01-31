@@ -5,9 +5,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
-import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
+import { 
+  AuthenticationContextProvider, 
+  useAuth 
+} from '../context/AuthenticationContext';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
-
 import { 
   Poppins_400Regular, 
   Poppins_600SemiBold, 
@@ -32,10 +35,12 @@ import * as Font from 'expo-font';
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
 
-
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  const { 
+    isAuthenticated, 
+    onAppOpen, 
+  } = useAuth();
 
   useEffect(() => {
     // define a function to load resources that we'll need.
@@ -43,6 +48,7 @@ const App = () => {
     // but in the future, we'll use this function to check login state,
     // load in preferences, etc.
     const prepare = async () => {
+      library.add(faEnvelope);
       try {
         // load icons
         library.add(...[
@@ -62,11 +68,27 @@ const App = () => {
           Nunito_500Medium, 
           Nunito_700Bold,
         });
-      }
-      catch {
+
+        // load in icons
+        library.add(faEnvelope);
+
+        // Check to see if persisted auth tokens exist
+        // IF yes, Refresh the access token and log user in.
+        // if no, user not authenticated.
+        await onAppOpen();
+        
+      } catch (error) {
         //catch any errors
-      }
-      finally {
+        switch (error.message) {
+          default:
+            console.error(
+              "Encountered an unexpected error at the root level.",
+              error.stack,
+              error.message
+            );
+            break;
+        }
+      } finally {
         // App is ready to render, so state is updated
         setAppIsReady(true);
       }
@@ -93,7 +115,7 @@ const App = () => {
   // otherwise, return the actual app content
   return (
     <> 
-    {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
+    { isAuthenticated ? <MainNavigator /> : <AuthNavigator /> }
     </>
   );
 };
@@ -107,8 +129,7 @@ const AppWithContext = () => {
        </NativeBaseProvider>
       </AuthenticationContextProvider>
     </NavigationContainer>
-
-  )
+  );
 };
 
 export default AppWithContext;

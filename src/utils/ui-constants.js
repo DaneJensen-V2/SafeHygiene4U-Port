@@ -30,8 +30,16 @@ const icons = {
     user: 'fa-regular fa-user'
 };
 
+const authenticationConstants = {
+    userEmail: 'USER_EMAIL',
+    userInfo: 'USER_INFO',
+    accessToken: 'ACCESS_TOKEN',
+    refreshToken: 'REFRESH_TOKEN',
+};
+
 module.exports = {
     colors,
     fontNames,
     icons,
-}
+    authenticationConstants,
+};
