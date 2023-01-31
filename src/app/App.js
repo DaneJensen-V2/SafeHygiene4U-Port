@@ -10,7 +10,7 @@ import {
   useAuth 
 } from '../context/AuthenticationContext';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
   Poppins_400Regular, 
   Poppins_600SemiBold, 
@@ -21,6 +21,14 @@ import {
   Nunito_500Medium,
   Nunito_700Bold 
 } from '@expo-google-fonts/nunito';
+import {
+  faEnvelope, 
+  faCircleXmark,
+  faEye,
+  faEyeSlash,
+  faUser,
+} from '@fortawesome/free-regular-svg-icons';
+
 import * as Font from 'expo-font';
 
 
@@ -42,6 +50,15 @@ const App = () => {
     const prepare = async () => {
       library.add(faEnvelope);
       try {
+        // load icons
+        library.add(...[
+          faEnvelope,
+          faCircleXmark,
+          faEye,
+          faEyeSlash,
+          faUser,
+        ]);
+
         // load custom fonts
         await Font.loadAsync({
           Poppins_400Regular, 

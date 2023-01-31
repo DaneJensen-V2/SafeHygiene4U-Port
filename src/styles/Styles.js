@@ -5,10 +5,16 @@ const textStyles = StyleSheet.create({
   heading: {
     fontFamily: fontNames.Poppins_Bold,
     color : colors.white,
-    fontSize : 16
+    fontSize : 28
   },
   body: {
     fontFamily: fontNames.Nunito_Regular,
+    fontSize: 14
+  },
+  white_text_button: {
+    fontFamily: fontNames.Poppins_Bold,
+    color : colors.white,
+    fontSize : 14
   },
   gray_text_button:{
     fontFamily: fontNames.Nunito_Medium,

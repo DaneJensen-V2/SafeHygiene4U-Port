@@ -22,6 +22,14 @@ const fontNames = {
     Nunito_Medium : 'Nunito_500Medium',
 };
 
+const icons = {
+    envelope: 'fa-regular fa-envelope',
+    temp: 'fa-regular fa-circle-xmark',
+    eye: 'fa-regular fa-eye',
+    eyeSlash: 'fa-regular fa-eye-slash', 
+    user: 'fa-regular fa-user'
+};
+
 const authenticationConstants = {
     userEmail: 'USER_EMAIL',
     userInfo: 'USER_INFO',
@@ -32,5 +40,6 @@ const authenticationConstants = {
 module.exports = {
     colors,
     fontNames,
+    icons,
     authenticationConstants,
 };
