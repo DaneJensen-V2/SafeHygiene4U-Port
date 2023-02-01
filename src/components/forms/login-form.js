@@ -4,16 +4,21 @@ import { StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { icons, colors } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
+import { useAuth } from "../../context/AuthenticationContext";
+import { useNavigation } from '@react-navigation/native';
 import MainButton from '../buttons/main-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full.png';
 import * as EmailValidator from 'email-validator';
+import { Main } from '../../screens/Main';
 
 
 const LoginForm = () => {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
+  const { onLogin, isAuthenticated } = useAuth();
+  const navigation = useNavigation();
 
   const validate = () => {
     let newErrors = { ...errors };
@@ -40,9 +45,22 @@ const LoginForm = () => {
     return false;
   };
   
-  const onSubmit = () => {
-    validate() ? console.log('Submitted') : console.log('Validation failed');
+  const onSubmit = async () => {
+    validate() ? await valid() : invalid();
   };
+
+  const valid = async () => {
+    console.log('Submitted')
+    onLogin(formData.email, formData.password);
+    if (isAuthenticated)
+      navigation.navigate('Main');
+    else invalid();
+  }
+
+  const invalid = () => {
+    console.log('Validation failed')
+  }
+  
 
   return (
     <Square width='80%' height='50%' bg='white' rounded='lg' alignItems='center'>

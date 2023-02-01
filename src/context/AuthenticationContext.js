@@ -105,6 +105,42 @@ export const AuthenticationContextProvider = ({ children }) => {
       //method to fake authentication during testing
       const fakeLogin = () => setIsAuthenticated(true);
 
+      /**
+       * Make Authenticated Request to Repurpost API
+       * @param {object} params
+       * @returns
+       */
+      const makeAuthenticatedRequest = async ({
+        headers = {
+          'Accept': 'application/json', 
+          'Content-Type': 'application/json',
+        },
+        method = 'GET',
+        body = '{}',
+        host = 'NO_DESTINATION_SET',
+      } = {} ) => {
+        if (!isAuthenticated)
+          throw new Error('Attempt to make authenticated request from unauthenicated context.');
+        
+        try {
+          const response = await fetch(host, {
+            method: method,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              ...headers
+            },
+          });
+
+          //TO-DO -- Add check to see if we get any error that results from an expired sessionID
+          // or something else, and if so, do the proper logic to refresh the token and try again.
+          
+          return response.json();
+        } catch (error) {
+          console.error('ERROR IN AUTH REQUEST');
+          console.error(error);
+        }
+      };
+
     return (
         <AuthenticationContext.Provider
           value={{
@@ -116,6 +152,7 @@ export const AuthenticationContextProvider = ({ children }) => {
             onLogout,
             onAppOpen,
             fakeLogin,
+            makeAuthenticatedRequest,
           }}
         >
           {children}
