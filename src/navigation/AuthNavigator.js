@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import  { Login }   from '../screens/Login';
-import { Register }   from '../screens/Register';
-import  { ForgotPassword } from '../screens/Forgot-Password';
+import  { Login }   from '../screens/Auth/Login';
+import { Register }   from '../screens/Auth/Register';
+import  { ForgotPassword } from '../screens/Auth/Forgot-Password';
 
 
 // returns an object containing 2 properties: Screen and Navigator. 
@@ -15,7 +15,7 @@ export const AuthNavigator = () => (
   <Stack.Navigator  screenOptions={{
     headerShown: false
   }}>
-    <Stack.Screen name="Login" component={Login} />
+       <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Register" component={Register} />
     <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
   </Stack.Navigator>

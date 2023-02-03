@@ -8,7 +8,9 @@ import { AuthNavigator } from '../navigation/AuthNavigator';
 import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
+
 import { 
+  Poppins_300Light,
   Poppins_400Regular, 
   Poppins_600SemiBold, 
   Poppins_700Bold 
@@ -24,9 +26,13 @@ import {
   faEye,
   faEyeSlash,
   faUser,
+  faLightbulb,
+  faRectangleList, 
+  faClock
 } from '@fortawesome/free-regular-svg-icons';
 
 import * as Font from 'expo-font';
+import { faBars, faBolt, faGear, faShareNodes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 
 // keep the splash screen visible until we have completed all async processing
@@ -51,10 +57,19 @@ const App = () => {
           faEye,
           faEyeSlash,
           faUser,
+          faGear,
+          faLightbulb,
+          faShareNodes, 
+          faRectangleList,
+          faBars,
+          faTriangleExclamation,
+          faClock, 
+          faBolt
         ]);
 
         // load custom fonts
         await Font.loadAsync({
+          Poppins_300Light,
           Poppins_400Regular, 
           Poppins_600SemiBold, 
           Poppins_700Bold, 
@@ -65,6 +80,7 @@ const App = () => {
       }
       catch {
         //catch any errors
+        console.log("Error- Couldn't load icons")
       }
       finally {
         // App is ready to render, so state is updated

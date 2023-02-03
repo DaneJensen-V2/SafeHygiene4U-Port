@@ -1,12 +1,12 @@
 import React from "react";
 import {StyleSheet, View, Text, Dimensions} from 'react-native'
 import { StatusBar } from 'expo-status-bar';
-import RepurpostGradient from '../components/background-gradient';
-import MainButton from '../components/buttons/main-button';
-import TextButton from '../components/buttons/text-button';
+import RepurpostGradient from '../../components/background-gradient';
+import MainButton from '../../components/buttons/main-button';
+import TextButton from '../../components/buttons/text-button';
 import { useNavigation } from '@react-navigation/native';
-import {textStyles} from '../styles/Styles'
-import { colors } from "../utils/ui-constants";
+import {textStyles} from '../../styles/Styles'
+import { colors } from "../../utils/ui-constants";
 
 //Screen shell for the "forgot password" auth screen
 export const ForgotPassword = () =>{
