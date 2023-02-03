@@ -7,13 +7,16 @@ import { textStyles } from '../../styles/Styles';
 import MainButton from '../buttons/main-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full.png';
+import { useContext } from 'react';
 import * as EmailValidator from 'email-validator';
+import { AuthenticationContext } from "../../context/AuthenticationContext";
 
 
 const LoginForm = () => {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
+  const { onLogin } = useContext(AuthenticationContext);
 
   const validate = () => {
     let newErrors = { ...errors };
@@ -39,9 +42,15 @@ const LoginForm = () => {
 
     return false;
   };
+
+  function Login(){
+    console.log('Submitted')
+    //TO-DO- only call onLogin() if user is actually authenticated
+    onLogin()
+  }
   
   const onSubmit = () => {
-    validate() ? console.log('Submitted') : console.log('Validation failed');
+    validate() ? Login() : console.log('Validation failed');
   };
 
   return (

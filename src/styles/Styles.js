@@ -5,16 +5,10 @@ const textStyles = StyleSheet.create({
   heading: {
     fontFamily: fontNames.Poppins_Bold,
     color : colors.white,
-    fontSize : 28
+    fontSize : 16
   },
   body: {
     fontFamily: fontNames.Nunito_Regular,
-    fontSize: 14
-  },
-  white_text_button: {
-    fontFamily: fontNames.Poppins_Bold,
-    color : colors.white,
-    fontSize : 14
   },
   gray_text_button:{
     fontFamily: fontNames.Nunito_Medium,
@@ -29,8 +23,14 @@ const textStyles = StyleSheet.create({
     textAlign : 'center'
 
   },
+  mainHeading: {
+    fontFamily: fontNames.Poppins_Bold,
+    color: colors.ebony_clay,
+    fontSize : 28
+  }
 });
+ 
 
 module.exports = {
   textStyles
-};
+}
