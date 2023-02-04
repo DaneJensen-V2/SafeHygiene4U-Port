@@ -4,11 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 import { colors, fontNames, icons } from "../../utils/ui-constants";
 import { Button, HStack, VStack, Icon, Center } from "native-base";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useAuth } from "../../context/AuthenticationContext";
 
 //Details screen, just an extra screen to demo pushing and popping screens from a stack
 export const HomeScreen = () =>{
 
   const navigation= useNavigation();
+  const auth = useAuth();
 
     return (
         <ScrollView>
@@ -29,7 +31,9 @@ export const HomeScreen = () =>{
 
               <CreateView navigation = {navigation}>
               </CreateView>
-
+              <Button onPress={auth.onLogout}>
+                Logout
+              </Button>
           </View>
         </ScrollView>
       ); 

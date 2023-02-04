@@ -9,7 +9,6 @@ import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full.png';
 import { useContext } from 'react';
 import * as EmailValidator from 'email-validator';
-import { AuthenticationContext } from "../../context/AuthenticationContext";
 import { useAuth } from '../../context/AuthenticationContext';
 
 
