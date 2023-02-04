@@ -10,13 +10,14 @@ import Logo from '../../../assets/logo-full.png';
 import { useContext } from 'react';
 import * as EmailValidator from 'email-validator';
 import { AuthenticationContext } from "../../context/AuthenticationContext";
+import { useAuth } from '../../context/AuthenticationContext';
 
 
 const LoginForm = () => {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
-  const { onLogin } = useContext(AuthenticationContext);
+  const auth = useAuth();
 
   const validate = () => {
     let newErrors = { ...errors };
@@ -45,8 +46,8 @@ const LoginForm = () => {
 
   function Login(){
     console.log('Submitted')
-    //TO-DO- only call onLogin() if user is actually authenticated
-    onLogin()
+    //TEMP
+    auth.onLogin(formData.email, formData.password)
   }
   
   const onSubmit = () => {

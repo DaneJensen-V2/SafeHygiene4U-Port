@@ -5,18 +5,42 @@ import { Register }   from '../screens/Auth/Register';
 import  { ForgotPassword } from '../screens/Auth/Forgot-Password';
 
 
-// returns an object containing 2 properties: Screen and Navigator. 
-// Both are used for configuring the navigator. 
-const Stack = createNativeStackNavigator();
+export const AuthNavigator = () => {
 
-//Navigation stack that is loaded when the user opens the app and is not logged in.
-export const AuthNavigator = () => (
-  //hides top navigation bar
-  <Stack.Navigator  screenOptions={{
-    headerShown: false
-  }}>
-       <Stack.Screen name="Login" component={Login} />
-    <Stack.Screen name="Register" component={Register} />
-    <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+  // returns an object containing 2 properties: Screen and Navigator. 
+  // Both are used for configuring the navigator. 
+  const Stack = createNativeStackNavigator();
+
+  //defining the screens that are present in the navigator
+  const authenticationScreens = [
+    {
+      screenName: 'Login', 
+      component: Login,
+    },
+    {
+      screenName: 'Register', 
+      component: Register,
+    },
+    {
+      screenName: 'ForgotPassword', 
+      component: ForgotPassword,
+    }
+  ];
+
+  const navigatorScreenOptions = {
+    //hides top navigation bar
+    headerShown: false,
+  };
+  
+  return <Stack.Navigator  screenOptions={ navigatorScreenOptions }>
+    {
+      authenticationScreens.map(s => 
+        <Stack.Screen 
+          key={s.screenName}
+          name={s.screenName} 
+          component={s.component}
+        />
+      )
+    }
   </Stack.Navigator>
-);
+};

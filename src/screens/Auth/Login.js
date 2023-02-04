@@ -17,7 +17,9 @@ import { keyboardDismissHandlerManager } from 'native-base';
 
 //Shell for the "Login" auth screen
 export const Login = ({}) => {
-  const { onLogin } = useContext(AuthenticationContext);
+  //TODO: AuthenticationContext working
+  //const { onLogin } = useContext(AuthenticationContext);
+
   const navigation = useNavigation();
   //REPLACE WITH AUTH
   const Login = () => {

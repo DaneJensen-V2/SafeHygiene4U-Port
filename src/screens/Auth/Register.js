@@ -18,7 +18,7 @@ import RepurpostGradient from '../../components/background-gradient';
 //Shell for the "Login" auth screen
 export const Register = ({}) =>{
 
-  const {onLogin} = useContext(AuthenticationContext);
+  const {onLogin} = useAuth();
   const navigation = useNavigation();
     //REPLACE WITH AUTH
     const signUp = () => {

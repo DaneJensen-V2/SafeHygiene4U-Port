@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
-import { AuthenticationContext, AuthenticationContextProvider } from '../context/AuthenticationContext';
+import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 
@@ -20,8 +20,9 @@ import {
   Nunito_500Medium,
   Nunito_700Bold 
 } from '@expo-google-fonts/nunito';
+
 import {
-  faEnvelope, 
+  faEnvelope,
   faCircleXmark,
   faEye,
   faEyeSlash,
@@ -34,14 +35,12 @@ import {
 import * as Font from 'expo-font';
 import { faBars, faBolt, faGear, faShareNodes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
-
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
 
-
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  const { isAuthenticated, onAppOpen } = useAuth();
 
   useEffect(() => {
     // define a function to load resources that we'll need.
@@ -49,6 +48,7 @@ const App = () => {
     // but in the future, we'll use this function to check login state,
     // load in preferences, etc.
     const prepare = async () => {
+      library.add(faEnvelope);
       try {
         // load icons
         library.add(...[
@@ -74,15 +74,29 @@ const App = () => {
           Poppins_600SemiBold, 
           Poppins_700Bold, 
           Nunito_400Regular,
-          Nunito_500Medium, 
+          Nunito_500Medium,
           Nunito_700Bold,
         });
-      }
-      catch {
+
+        // load in icons
+        library.add(faEnvelope);
+
+        // Check to see if persisted auth tokens exist
+        // IF yes, Refresh the access token and log user in.
+        // if no, user not authenticated.
+        await onAppOpen();
+      } catch (error) {
         //catch any errors
-        console.log("Error- Couldn't load icons")
-      }
-      finally {
+        switch (error.message) {
+          default:
+            console.error(
+              'Encountered an unexpected error at the root level.',
+              error.stack,
+              error.message
+            );
+            break;
+        }
+      } finally {
         // App is ready to render, so state is updated
         setAppIsReady(true);
       }
@@ -92,8 +106,8 @@ const App = () => {
     prepare();
   }, []);
 
-   // this hook hides the splash screen once the 
-   // app is ready to be rendered
+  // this hook hides the splash screen once the
+  // app is ready to be rendered
   const splashVisibilityControl = useEffect(() => {
     const hideSplashWhenReady = async () => {
       if (appIsReady) {
@@ -107,24 +121,19 @@ const App = () => {
   if (!appIsReady) return null;
 
   // otherwise, return the actual app content
-  return (
-    <> 
-    {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
-    </>
-  );
+  return <>{isAuthenticated ? <MainNavigator /> : <AuthNavigator />}</>;
 };
 
 const AppWithContext = () => {
   return (
     <NavigationContainer>
       <AuthenticationContextProvider>
-       <NativeBaseProvider theme={RepurpostBrandTheme}>
-         <App />
-       </NativeBaseProvider>
+        <NativeBaseProvider theme={RepurpostBrandTheme}>
+          <App />
+        </NativeBaseProvider>
       </AuthenticationContextProvider>
     </NavigationContainer>
-
-  )
+  );
 };
 
 export default AppWithContext;

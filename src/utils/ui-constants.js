@@ -40,8 +40,16 @@ const icons = {
     clock : "fa-regular fa-clock"
 };
 
+const authenticationConstants = {
+    userEmail: 'USER_EMAIL',
+    userInfo: 'USER_INFO',
+    accessToken: 'ACCESS_TOKEN',
+    refreshToken: 'REFRESH_TOKEN',
+};
+
 module.exports = {
     colors,
     fontNames,
     icons,
-}
+    authenticationConstants,
+};

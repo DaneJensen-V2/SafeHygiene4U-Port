@@ -74,7 +74,7 @@ const CreateView = ({navigation}) => {
   return (
       <View style={styles.createView}>
           <VStack >
-            <Button  height={150} paddingBottom={0} onPress={() => navigation.navigate('IdeaMain')} style = {styles.buttonStyle} m="4" borderRadius={15} backgroundColor="#F0E7FB" opacity = {1} _text={{
+            <Button  height={150} paddingBottom={0} onPress={() => navigation.navigate('Ideas')} style = {styles.buttonStyle} m="4" borderRadius={15} backgroundColor="#F0E7FB" opacity = {1} _text={{
               color: colors.medium_purple, 
               fontFamily : fontNames.Poppins_Regular,
               fontSize: 18, 
@@ -87,7 +87,7 @@ const CreateView = ({navigation}) => {
             Idea
               
             </Button>
-            <Button  height={150} onPress={() => navigation.navigate('SocialPost')} mx="4" borderRadius={15} backgroundColor="#D9F5FE" opacity = {1} _text={{
+            <Button  height={150} onPress={() => navigation.navigate('Social Post')} mx="4" borderRadius={15} backgroundColor="#D9F5FE" opacity = {1} _text={{
               color: colors.cerulean, 
               fontFamily : fontNames.Poppins_Regular,
               fontSize: 18
@@ -98,7 +98,7 @@ const CreateView = ({navigation}) => {
                 </Center>
             Social Post
             </Button>
-            <Button  height={150} onPress={() => navigation.navigate('BlogPost')} m="4" borderRadius={15} backgroundColor="#FFEBE8" opacity = {1} _text={{
+            <Button  height={150} onPress={() => navigation.navigate('Blog Post')} m="4" borderRadius={15} backgroundColor="#FFEBE8" opacity = {1} _text={{
               color: "#FC4D3D",
               fontFamily : fontNames.Poppins_Regular,
               fontSize: 18
