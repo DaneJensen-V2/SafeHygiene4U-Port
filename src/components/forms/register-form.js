@@ -18,7 +18,7 @@ import { textStyles } from '../../styles/Styles';
 import { useNavigation } from '@react-navigation/native';
 import MainButton from '../buttons/main-button';
 import TextButton from '../buttons/text-button';
-import Logo from '../../../assets/logo-full.png';
+import Logo from '../../../assets/logo-full-lower.png';
 import * as EmailValidator from 'email-validator';
 
 const RegisterForm = () => {
@@ -37,6 +37,7 @@ const RegisterForm = () => {
 
     if (formData.name === undefined || formData.name === '') {
       newErrors.name = 'Name is required';
+      console.log("No Name");
     } else {
       newErrors.name = null;
     }
@@ -92,7 +93,7 @@ const RegisterForm = () => {
   return (
     <Square width='80%' height='60%' bg='white' rounded='lg' alignItems='center'>
       <VStack style={loginStyles.container} width='100%' alignItems='center'>
-        <Image style={loginStyles.logo} source={Logo} alt='Logo' />
+        <Image style={loginStyles.logo} source={Logo} alt='Logo' paddingBottom={10}/>
         <FormControl
           style={loginStyles.formControl}
           isRequired
@@ -236,6 +237,7 @@ const RegisterForm = () => {
             isChecked={checked}
             onChange={() => {
               setChecked(!checked);
+              //setData is causing errorMessages to not work properly
               setData({ ...formData, tou: !checked });
             }}
           >
