@@ -26,6 +26,7 @@ const RegisterForm = () => {
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
+  const [firstLoad, setFirstLoad] = React.useState(true);
   const navigation = useNavigation();
 
   const login = () => {
@@ -37,7 +38,7 @@ const RegisterForm = () => {
 
     if (formData.name === undefined || formData.name === '') {
       newErrors.name = 'Name is required';
-      console.log("No Name");
+      console.log('No Name');
     } else {
       newErrors.name = null;
     }
@@ -66,12 +67,6 @@ const RegisterForm = () => {
       newErrors.passwordConfirm = null;
     }
 
-    if (formData.tou === undefined || formData.tou === false) {
-      newErrors.tou = 'Please read and accept the terms and conditions';
-    } else {
-      newErrors.tou = null;
-    }
-
     setErrors(newErrors);
 
     if (
@@ -79,7 +74,7 @@ const RegisterForm = () => {
       newErrors.email === null &&
       newErrors.password === null &&
       newErrors.passwordConfirm === null &&
-      newErrors.tou === null
+      checked === true
     )
       return true;
 
@@ -87,13 +82,14 @@ const RegisterForm = () => {
   };
 
   const onSubmit = () => {
+    if (firstLoad) setFirstLoad(!firstLoad);
     validate() ? console.log('Submitted') : console.log('Validation failed');
   };
 
   return (
     <Square width='80%' height='60%' bg='white' rounded='lg' alignItems='center'>
       <VStack style={loginStyles.container} width='100%' alignItems='center'>
-        <Image style={loginStyles.logo} source={Logo} alt='Logo' paddingBottom={10}/>
+        <Image style={loginStyles.logo} source={Logo} alt='Logo' paddingBottom={10} />
         <FormControl
           style={loginStyles.formControl}
           isRequired
@@ -231,14 +227,12 @@ const RegisterForm = () => {
         <FormControl
           style={loginStyles.formControl}
           isRequired
-          isInvalid={'tou' in errors && errors.tou != null}
+          isInvalid={checked === false && firstLoad === false}
         >
           <Checkbox
             isChecked={checked}
             onChange={() => {
               setChecked(!checked);
-              //setData is causing errorMessages to not work properly
-              setData({ ...formData, tou: !checked });
             }}
           >
             <Text style={textStyles.body} color={colors.robin_egg_blue}>
@@ -249,7 +243,7 @@ const RegisterForm = () => {
             leftIcon={<WarningOutlineIcon size='sm' />}
             _text={textStyles.body}
           >
-            {errors.tou}
+            Please read and accept the terms and conditions
           </FormControl.ErrorMessage>
         </FormControl>
         <MainButton
