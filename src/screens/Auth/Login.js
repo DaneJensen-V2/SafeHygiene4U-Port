@@ -14,6 +14,7 @@ import { textStyles } from '../../styles/Styles';
 import LoginForm from '../../components/forms/login-form';
 import { AuthenticationContext } from '../../context/AuthenticationContext';
 import { keyboardDismissHandlerManager } from 'native-base';
+import { colors, fontNames } from '../../utils/ui-constants';
 
 //Shell for the "Login" auth screen
 export const Login = ({}) => {
@@ -43,25 +44,12 @@ export const Login = ({}) => {
     <TouchableWithoutFeedback onPressOut={onPressOut}>
       <View style={styles.container}>
         <RepurpostGradient />
-        <Text style={textStyles.heading}>Welcome back!👋</Text>
+        <Text style={styles.heading}>Welcome back!👋</Text>
         <LoginForm />
-        {
-
-        /* <View style={styles.loginCard}>
-            <MainButton text="Sign In" onPress={Login} bgColor={colors.robin_egg_blue}/>
-            <TextButton text="Forgot Password" onPress={forgotPassword} textStyle={textStyles.gray_text_button}/>
-            <TextButton text="Create an account" onPress={createAccount} textStyle={textStyles.robin_text_button}/>
-            <StatusBar style="auto" />
-          </View> */
-          
-        }
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-//Gets dimensions of users current device
-const deviceWidth = Math.round(Dimensions.get('window').width);
 
 const styles = StyleSheet.create({
   container: {
@@ -70,13 +58,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  //white background view behind the Auth forms
-  loginCard: {
-    width: deviceWidth - 65,
-    height: 400,
-    borderRadius: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  heading: {
+    fontFamily: fontNames.Poppins_Bold,
+    color: colors.white,
+    fontSize: 30,
   },
 });
