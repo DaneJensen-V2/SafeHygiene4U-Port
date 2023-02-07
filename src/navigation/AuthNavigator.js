@@ -1,11 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import  { Login }   from '../screens/Login';
-import { Register }   from '../screens/Register';
-import  { ForgotPassword } from '../screens/Forgot-Password';
+import  { Login }   from '../screens/Auth/Login';
+import { Register }   from '../screens/Auth/Register';
+import  { ForgotPassword } from '../screens/Auth/Forgot-Password';
 
 
-//Navigation stack that is loaded when the user opens the app and is not logged in.
 export const AuthNavigator = () => {
 
   // returns an object containing 2 properties: Screen and Navigator. 

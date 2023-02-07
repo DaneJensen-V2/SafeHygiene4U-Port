@@ -7,21 +7,33 @@ import { MainNavigator } from '../navigation/MainNavigator';
 import { AuthNavigator } from '../navigation/AuthNavigator';
 import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
+
+
+import { 
+  Poppins_300Light,
+  Poppins_400Regular, 
+  Poppins_600SemiBold, 
+  Poppins_700Bold 
 } from '@expo-google-fonts/poppins';
-import { Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from '@expo-google-fonts/nunito';
+import { 
+  Nunito_400Regular, 
+  Nunito_500Medium,
+  Nunito_700Bold 
+} from '@expo-google-fonts/nunito';
+
 import {
   faEnvelope,
   faCircleXmark,
   faEye,
   faEyeSlash,
   faUser,
+  faLightbulb,
+  faRectangleList, 
+  faClock
 } from '@fortawesome/free-regular-svg-icons';
 
 import * as Font from 'expo-font';
+import { faBars, faBolt, faGear, faShareNodes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
@@ -39,13 +51,28 @@ const App = () => {
       library.add(faEnvelope);
       try {
         // load icons
-        library.add(...[faEnvelope, faCircleXmark, faEye, faEyeSlash, faUser]);
+        library.add(...[
+          faEnvelope,
+          faCircleXmark,
+          faEye,
+          faEyeSlash,
+          faUser,
+          faGear,
+          faLightbulb,
+          faShareNodes, 
+          faRectangleList,
+          faBars,
+          faTriangleExclamation,
+          faClock, 
+          faBolt
+        ]);
 
         // load custom fonts
         await Font.loadAsync({
-          Poppins_400Regular,
-          Poppins_600SemiBold,
-          Poppins_700Bold,
+          Poppins_300Light,
+          Poppins_400Regular, 
+          Poppins_600SemiBold, 
+          Poppins_700Bold, 
           Nunito_400Regular,
           Nunito_500Medium,
           Nunito_700Bold,
