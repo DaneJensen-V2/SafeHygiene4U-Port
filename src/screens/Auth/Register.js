@@ -1,77 +1,61 @@
-import React, {useContext} from "react";
-import {StyleSheet, View, Text, Dimensions} from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-import { AuthenticationContext } from "../../context/AuthenticationContext";
-
-/*
-import {textStyles} from '../../styles/Styles'
-import { colors, icons } from "../../utils/ui-constants";
-import TextButton from "../../components/buttons/text-button";
-import MainButton from "../../components/buttons/main-button";
-import { Stack } from "native-base";
-import TextBox from "../../components/input/text-box";
-import PasswordBox from "../components/input/password-box";
-import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { useContext } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import RepurpostGradient from '../../components/background-gradient';
-*/
+import { useNavigation } from '@react-navigation/native';
+import { textStyles } from '../../styles/Styles';
+import CreateAccountForm from '../../components/forms/register-form';
+import { AuthenticationContext } from '../../context/AuthenticationContext';
+import { keyboardDismissHandlerManager } from 'native-base';
+import { colors, fontNames } from '../../utils/ui-constants';
 
-//Shell for the "Login" auth screen
-export const Register = ({}) =>{
+export const Register = ({}) => {
+  //TODO: AuthenticationContext working
+  //const { onLogin } = useContext(AuthenticationContext);
 
-  const {onLogin} = useAuth();
   const navigation = useNavigation();
-    //REPLACE WITH AUTH
-    const signUp = () => {
-      onLogin();
-    }
-    const signIn = () => {
-      navigation.navigate("Login");
-    }
+  //REPLACE WITH AUTH
+  const Register = () => {};
+  const login = () => {
+    navigation.navigate('Login');
+  };
+
+  //dismiss keyboard
+  const onPressOut = () => {
+    Keyboard.dismiss();
+  };
 
   //contains buttons to sign in (which would first auth the user then take them to the main nav stack),
-  //to create an account, and go to 
-    return (
-      /*
-    <View style={styles.container}>
-      <RepurpostGradient /> 
-      <View style={styles.loginCard}>
-      <Stack space={4} w="75%" mx="auto">
-         <TextBox placeholderText = "Name" faIcon = {icons.user} />
-         <TextBox placeholderText = "Email" faIcon = {icons .envelope}  />
-         <PasswordBox placeholderText = "Password" />
-         <PasswordBox placeholderText = "Confirm Password" />
-        </Stack>
-        <MainButton text="Sign Up" onPress={signUp} bgColor={colors.robin_egg_blue}/>
-        <TextButton text={"Already have an account? \n Sign in."} onPress={signIn} textStyle={textStyles.robin_text_button}/>
-        <StatusBar style="auto" />
-        
+  //to create an account, and go to
+  return (
+    <TouchableWithoutFeedback onPressOut={onPressOut}>
+      <View style={styles.container}>
+        <RepurpostGradient />
+        <Text style={styles.heading}>Get Started for Free</Text>
+        <CreateAccountForm />
       </View>
-   </View>
-    
-   */
-  <View></View>
-    );
-  }
+    </TouchableWithoutFeedback>
+  );
+};
 
-//Gets dimensions of users current device
-  const deviceWidth = Math.round(Dimensions.get('window').width)
-
-  const styles = StyleSheet.create({ 
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    loginCard: {
-      width : deviceWidth - 65,
-      height: 550,
-      borderRadius: 20,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }
-  });
-
-  
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heading: {
+    fontFamily: fontNames.Poppins_Bold,
+    color: colors.white,
+    fontSize: 30,
+    paddingBottom : 10
+  },
+});
