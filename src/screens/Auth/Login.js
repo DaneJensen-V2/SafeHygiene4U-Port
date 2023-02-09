@@ -26,12 +26,6 @@ export const Login = ({}) => {
   const Login = () => {
     onLogin();
   };
-  const forgotPassword = () => {
-    navigation.navigate('ForgotPassword');
-  };
-  const createAccount = () => {
-    navigation.navigate('Register');
-  };
 
   //dismiss keyboard
   const onPressOut = () => {

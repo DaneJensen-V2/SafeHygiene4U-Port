@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     fontFamily: fontNames.Poppins_Bold,
     color: colors.white,
     fontSize: 30,
-    paddingBottom : 10
+    paddingBottom: 10,
   },
 });
