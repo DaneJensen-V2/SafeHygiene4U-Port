@@ -5,12 +5,12 @@ import { Register } from '../screens/Auth/Register';
 import { ForgotPassword } from '../screens/Auth/Forgot-Password';
 import { TermsAndConditions } from '../screens/Auth/Terms-And-Conditions';
 
-export const AuthNavigator = () => {
+export default function AuthNavigator() {
   // returns an object containing 2 properties: Screen and Navigator.
   // Both are used for configuring the navigator.
   const Stack = createNativeStackNavigator();
 
-  //defining the screens that are present in the navigator
+  // defining the screens that are present in the navigator
   const authenticationScreens = [
     {
       screenName: 'Login',
@@ -31,7 +31,7 @@ export const AuthNavigator = () => {
   ];
 
   const navigatorScreenOptions = {
-    //hides top navigation bar
+    // hides top navigation bar
     headerShown: false,
   };
 

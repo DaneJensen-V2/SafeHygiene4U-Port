@@ -1,25 +1,17 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable import/no-import-module-exports */
+import React, { useEffect, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
-import RepurpostBrandTheme from '../context/repurpost-brand-theme';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
-import { MainNavigator } from '../navigation/MainNavigator';
-import { AuthNavigator } from '../navigation/AuthNavigator';
-import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-
-import { 
+import {
   Poppins_300Light,
-  Poppins_400Regular, 
-  Poppins_600SemiBold, 
-  Poppins_700Bold 
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-import { 
-  Nunito_400Regular, 
-  Nunito_500Medium,
-  Nunito_700Bold 
-} from '@expo-google-fonts/nunito';
+import { Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from '@expo-google-fonts/nunito';
 
 import {
   faEnvelope,
@@ -28,17 +20,32 @@ import {
   faEyeSlash,
   faUser,
   faLightbulb,
-  faRectangleList, 
-  faClock
+  faRectangleList,
+  faClock,
+  faPenToSquare,
 } from '@fortawesome/free-regular-svg-icons';
 
 import * as Font from 'expo-font';
-import { faBars, faBolt, faGear, faShareNodes, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faBolt,
+  faGear,
+  faShareNodes,
+  faTriangleExclamation,
+  faArrowLeft,
+  faPlus,
+  faMagnifyingGlass,
+  faChevronRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
+import AuthNavigator from '../navigation/AuthNavigator';
+import MainNavigator from '../navigation/MainNavigator';
+import RepurpostBrandTheme from '../context/repurpost-brand-theme';
 
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
 
-const App = () => {
+function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const { isAuthenticated, onAppOpen } = useAuth();
 
@@ -51,28 +58,35 @@ const App = () => {
       library.add(faEnvelope);
       try {
         // load icons
-        library.add(...[
-          faEnvelope,
-          faCircleXmark,
-          faEye,
-          faEyeSlash,
-          faUser,
-          faGear,
-          faLightbulb,
-          faShareNodes, 
-          faRectangleList,
-          faBars,
-          faTriangleExclamation,
-          faClock, 
-          faBolt
-        ]);
+        library.add(
+          ...[
+            faEnvelope,
+            faCircleXmark,
+            faEye,
+            faEyeSlash,
+            faUser,
+            faGear,
+            faLightbulb,
+            faShareNodes,
+            faRectangleList,
+            faBars,
+            faTriangleExclamation,
+            faClock,
+            faBolt,
+            faPenToSquare,
+            faArrowLeft,
+            faPlus,
+            faMagnifyingGlass,
+            faChevronRight,
+          ]
+        );
 
         // load custom fonts
         await Font.loadAsync({
           Poppins_300Light,
-          Poppins_400Regular, 
-          Poppins_600SemiBold, 
-          Poppins_700Bold, 
+          Poppins_400Regular,
+          Poppins_600SemiBold,
+          Poppins_700Bold,
           Nunito_400Regular,
           Nunito_500Medium,
           Nunito_700Bold,
@@ -86,7 +100,7 @@ const App = () => {
         // if no, user not authenticated.
         await onAppOpen();
       } catch (error) {
-        //catch any errors
+        // catch any errors
         switch (error.message) {
           default:
             console.error(
@@ -122,9 +136,9 @@ const App = () => {
 
   // otherwise, return the actual app content
   return <>{isAuthenticated ? <MainNavigator /> : <AuthNavigator />}</>;
-};
+}
 
-const AppWithContext = () => {
+function AppWithContext() {
   return (
     <NavigationContainer>
       <AuthenticationContextProvider>
@@ -134,7 +148,7 @@ const AppWithContext = () => {
       </AuthenticationContextProvider>
     </NavigationContainer>
   );
-};
+}
 
 export default AppWithContext;
 
