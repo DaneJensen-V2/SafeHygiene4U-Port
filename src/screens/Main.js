@@ -18,7 +18,7 @@ import { API_CONSTANTS } from "../utils/constants";
 export const Main = () =>{
   const navigation = useNavigation();
   var currentScreen = 0;
-  const { onLogout, onLogin, accessToken, makeAuthenticatedRequest, sessionID } = useAuth();
+  const { onLogout, onLogin, accessToken, getUserInfo, sessionID } = useAuth();
   const [persistedAccessTok, setPersistedAccessTok] = useState('');
   const [persistedRefreshTok, setPersistedRefreshTok] = useState('');
 
@@ -51,12 +51,7 @@ export const Main = () =>{
  }
 
  const Info = async () => {
-  const user = await makeAuthenticatedRequest({
-    host:API_CONSTANTS.REPURPOST_USERINFO,
-    method: 'GET',
-  });
-  console.log(user);
-  
+  getUserInfo();
  }
 
 

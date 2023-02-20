@@ -1,6 +1,9 @@
 const API_CONSTANTS = {
     REPURPOST_LOGIN: 'https://api.repurpost.com/auth/login/',
     REPURPOST_USERINFO: 'https://api.repurpost.com/api/users/user/me',
+    REPURPOST_WORKSPACE_LIST: 'https://api.repurpost.com/api/projects',
+    REPURPOST_SWITCH_ACTIVE_WORKSPACE: 'https://api.repurpost.com/api/users/project/',  //add new workspace ID after the slash
+    REPURPOST_WORKSPACE_REFRESH: 'https://api.repurpost.com/auth/token/refresh',        //user after switching workspaces
 };
 
 const ERROR_TYPES = {
