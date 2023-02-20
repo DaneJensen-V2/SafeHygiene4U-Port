@@ -21,6 +21,11 @@ export const Login = ({}) => {
   //TODO: AuthenticationContext working
   //const { onLogin } = useContext(AuthenticationContext);
 
+  const navigation = useNavigation();
+  //REPLACE WITH AUTH
+  const Login = () => {
+    onLogin();
+  };
 
   //dismiss keyboard
   const onPressOut = () => {

@@ -10,6 +10,9 @@ const textStyles = StyleSheet.create({
   body: {
     fontFamily: fontNames.Nunito_Regular,
   },
+  terms_and_conditions_text: {
+    fontFamily: fontNames.Nunito_Regular,
+  },
   gray_text_button: {
     fontFamily: fontNames.Nunito_Medium,
     color: colors.light_gray,

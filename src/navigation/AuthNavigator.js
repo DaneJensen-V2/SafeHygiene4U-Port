@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login } from '../screens/Auth/Login';
 import { Register } from '../screens/Auth/Register';
 import { ForgotPassword } from '../screens/Auth/Forgot-Password';
+import { TermsAndConditions } from '../screens/Auth/Terms-And-Conditions';
 
 export default function AuthNavigator() {
   // returns an object containing 2 properties: Screen and Navigator.
@@ -23,6 +24,10 @@ export default function AuthNavigator() {
       screenName: 'ForgotPassword',
       component: ForgotPassword,
     },
+    {
+      screenName: 'TermsAndConditions',
+      component: TermsAndConditions,
+    },
   ];
 
   const navigatorScreenOptions = {
@@ -37,4 +42,4 @@ export default function AuthNavigator() {
       ))}
     </Stack.Navigator>
   );
-}
+};

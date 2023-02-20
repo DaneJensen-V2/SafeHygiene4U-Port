@@ -33,6 +33,10 @@ const RegisterForm = () => {
     navigation.navigate('Login');
   };
 
+  const openTermsAndConditions = () => {
+    navigation.navigate('TermsAndConditions');
+  };
+
   const validate = () => {
     let newErrors = { ...errors };
 
@@ -235,8 +239,18 @@ const RegisterForm = () => {
               setChecked(!checked);
             }}
           >
-            <Text style={textStyles.body} color={colors.robin_egg_blue}>
-              I agree with the terms and conditions
+            <Text
+              style={[textStyles.terms_and_conditions_text, { marginRight: -4 }]}
+              color={colors.ebony_clay}
+            >
+              I agree with the
+            </Text>
+            <Text
+              style={textStyles.terms_and_conditions_text}
+              color={colors.robin_egg_blue}
+              onPress={openTermsAndConditions}
+            >
+              terms and conditions.
             </Text>
           </Checkbox>
           <FormControl.ErrorMessage
