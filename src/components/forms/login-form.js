@@ -16,7 +16,7 @@ import { textStyles } from '../../styles/Styles';
 import { useNavigation } from '@react-navigation/native';
 import MainButton from '../buttons/main-button';
 import TextButton from '../buttons/text-button';
-import Logo from '../../../assets/logo-full.png';
+import Logo from '../../../assets/logo-full-lower.png';
 import { useContext } from 'react';
 import * as EmailValidator from 'email-validator';
 import { useAuth } from '../../context/AuthenticationContext';
