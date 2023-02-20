@@ -4,33 +4,34 @@ import { colors, fontNames } from '../utils/ui-constants';
 const textStyles = StyleSheet.create({
   heading: {
     fontFamily: fontNames.Poppins_Bold,
-    color : colors.white,
-    fontSize : 28
+    color: colors.white,
+    fontSize: 16,
   },
   body: {
     fontFamily: fontNames.Nunito_Regular,
-    fontSize: 14
   },
-  white_text_button: {
+  terms_and_conditions_text: {
+    fontFamily: fontNames.Nunito_Regular,
+  },
+  gray_text_button: {
+    fontFamily: fontNames.Nunito_Medium,
+    color: colors.light_gray,
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  robin_text_button: {
+    fontFamily: fontNames.Nunito_Medium,
+    color: colors.robin_egg_blue,
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  mainHeading: {
     fontFamily: fontNames.Poppins_Bold,
-    color : colors.white,
-    fontSize : 14
-  },
-  gray_text_button:{
-    fontFamily: fontNames.Nunito_Medium,
-    color : colors.light_gray,
-    fontSize : 14,
-    textAlign : 'center'
-  },
-  robin_text_button:{
-    fontFamily: fontNames.Nunito_Medium,
-    color : colors.robin_egg_blue,
-    fontSize : 16, 
-    textAlign : 'center'
-
+    color: colors.ebony_clay,
+    fontSize: 28,
   },
 });
 
 module.exports = {
-  textStyles
+  textStyles,
 };
