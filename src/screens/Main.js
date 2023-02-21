@@ -11,13 +11,14 @@ import { useAuth } from "../context/AuthenticationContext";
 import { getSecureKeys } from '../utils/post-auth-utils'
 import { useState, useEffect } from 'react';
 import { SECURE_STORE_KEYS } from "../utils/constants";
+import { API_CONSTANTS } from "../utils/constants";
 
 
 //shell for Main page that will be replaced with whatever screen the user should see after logging in
 export const Main = () =>{
   const navigation = useNavigation();
   var currentScreen = 0;
-  const { onLogout, onLogin, accessToken, sessionID } = useAuth();
+  const { onLogout, onLogin, accessToken, getUserInfo, sessionID } = useAuth();
   const [persistedAccessTok, setPersistedAccessTok] = useState('');
   const [persistedRefreshTok, setPersistedRefreshTok] = useState('');
 
@@ -30,8 +31,8 @@ export const Main = () =>{
     onLogout();
  };
 
- const testEmail = '[EMAIL]';
- const testPassword = '[PASSWORD]';
+ const testEmail = 'nkastell@asu.edu';
+ const testPassword = 'Kas13Stone!';
 
  const Login = () => {
   onLogin(testEmail,testPassword);
@@ -47,6 +48,10 @@ export const Main = () =>{
     setPersistedAccessTok(tokens[SECURE_STORE_KEYS.ACCESS_TOKEN]);
   if (tokens[SECURE_STORE_KEYS.REFRESH_TOKEN])
     setPersistedRefreshTok(tokens[SECURE_STORE_KEYS.REFRESH_TOKEN]);
+ }
+
+ const Info = async () => {
+  getUserInfo();
  }
 
 
@@ -66,6 +71,7 @@ export const Main = () =>{
       </Text>
       <MainButton text='Navigate to the Next Screen' onPress ={navToDetails} bgColor = {colors.medium_purple} />
       <MainButton text="Logout" onPress={Logout} bgColor={colors.ebony_clay}/>
+      <MainButton text="Get Info" onPress={Info} bgColor={colors.ebony_clay}/>
       <StatusBar style="auto" />
    </View>
     );
