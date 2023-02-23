@@ -20,14 +20,17 @@ import MainButton from '../buttons/main-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full-lower.png';
 import * as EmailValidator from 'email-validator';
+import { useAuth } from '../../context/AuthenticationContext';
+import { createAccountRequest } from '../../utils/pre-auth-utils';
 
 const RegisterForm = () => {
-  const [formData, setData] = React.useState({});
+  const [formData, setFormData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [firstLoad, setFirstLoad] = React.useState(true);
   const navigation = useNavigation();
+  const { onLogin } = useAuth();
 
   const login = () => {
     navigation.navigate('Login');
@@ -85,9 +88,29 @@ const RegisterForm = () => {
     return false;
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (firstLoad) setFirstLoad(!firstLoad);
-    validate() ? console.log('Submitted') : console.log('Validation failed');
+    let formValid = validate();
+    if (!formValid) {
+      console.log('Create Account form validation failed.');
+      return;
+    }
+    console.log('Login form valid. Submitting create account request with following data:');
+    console.log(JSON.stringify(formData));
+    let createAccountSuccessful = await createAccountRequest({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      password2: formData.passwordConfirm,
+    });
+
+    if (!createAccountSuccessful) {
+      //TODO: Deliver message to the user about what failed.
+      return;
+    }
+
+    //otherwise, log them in!
+    onLogin(formData.email, formData.password);
   };
 
   return (
@@ -114,7 +137,7 @@ const RegisterForm = () => {
               />
             }
             placeholder='Name'
-            onChangeText={(value) => setData({ ...formData, name: value })}
+            onChangeText={(value) => setFormData({ ...formData, name: value })}
           />
           <FormControl.ErrorMessage
             style={textStyles.body}
@@ -144,7 +167,7 @@ const RegisterForm = () => {
               />
             }
             placeholder='Email'
-            onChangeText={(value) => setData({ ...formData, email: value })}
+            onChangeText={(value) => setFormData({ ...formData, email: value })}
           />
           <FormControl.ErrorMessage
             style={textStyles.body}
@@ -189,7 +212,7 @@ const RegisterForm = () => {
               </Pressable>
             }
             placeholder='Password'
-            onChangeText={(value) => setData({ ...formData, password: value })}
+            onChangeText={(value) => setFormData({ ...formData, password: value })}
           />
           <FormControl.ErrorMessage
             leftIcon={<WarningOutlineIcon size='sm' />}
@@ -219,7 +242,7 @@ const RegisterForm = () => {
               />
             }
             placeholder='Password Confirmation'
-            onChangeText={(value) => setData({ ...formData, passwordConfirm: value })}
+            onChangeText={(value) => setFormData({ ...formData, passwordConfirm: value })}
           />
           <FormControl.ErrorMessage
             leftIcon={<WarningOutlineIcon size='sm' />}

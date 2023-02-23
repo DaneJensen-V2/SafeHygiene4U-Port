@@ -1,9 +1,10 @@
 const API_CONSTANTS = {
   REPURPOST_LOGIN: 'https://api.repurpost.com/auth/login/',
+  REPURPOST_CREATE_ACCOUNT: 'https://api.repurpost.com/auth/signup',
   REPURPOST_USERINFO: 'https://api.repurpost.com/api/users/user/me',
   REPURPOST_WORKSPACE_LIST: 'https://api.repurpost.com/api/projects',
-  REPURPOST_SWITCH_ACTIVE_WORKSPACE: 'https://api.repurpost.com/api/users/project/',  //add new workspace ID after the slash
-  REPURPOST_WORKSPACE_REFRESH: 'https://api.repurpost.com/auth/token/refresh',        //user after switching workspaces
+  REPURPOST_SWITCH_ACTIVE_WORKSPACE: 'https://api.repurpost.com/api/users/project/', //add new workspace ID after the slash
+  REPURPOST_WORKSPACE_REFRESH: 'https://api.repurpost.com/auth/token/refresh', //user after switching workspaces
 };
 
 const REPURPOST_PAGES = {
@@ -13,6 +14,7 @@ const REPURPOST_PAGES = {
 const ERROR_TYPES = {
   INVALID_EMAIL: 'INVALID_EMAIL',
   INVALID_PASSWORD: 'INVALID_PASSWORD',
+  USER_ALREADY_EXISTS: 'USER_ALREADY_HAS_A_REGISTERED_COMPANY',
   UNKNOWN_ERROR: 'UNKNOWN_ERROR',
 };
 
