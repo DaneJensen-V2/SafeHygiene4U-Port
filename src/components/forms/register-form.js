@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { icons, colors } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
 import { useNavigation } from '@react-navigation/native';
-import MainButton from '../buttons/main-button';
+import LoadingButton from '../buttons/loading-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full-lower.png';
 import * as EmailValidator from 'email-validator';
@@ -25,6 +25,7 @@ const RegisterForm = () => {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
   const [firstLoad, setFirstLoad] = React.useState(true);
   const navigation = useNavigation();
@@ -260,11 +261,13 @@ const RegisterForm = () => {
             Please read and accept the terms and conditions
           </FormControl.ErrorMessage>
         </FormControl>
-        <MainButton
+        <LoadingButton
           style={loginStyles.mainButton}
           text='Sign Up'
-          onPress={onSubmit}
           bgColor={colors.robin_egg_blue}
+          onPress={onSubmit}
+          isLoading={loading}
+          loadingText='Signing Up'
         />
         <TextButton
           style={loginStyles.textButton}
