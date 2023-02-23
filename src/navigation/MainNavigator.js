@@ -4,7 +4,7 @@ import { Main } from '../screens/Main';
 import { Details } from '../screens/Details';
 import { HomeScreen } from '../screens/Home/HomeScreen';
 import { LogoTitle, WorkspaceSelectButton, MenuButton } from '../components/headers/main-header';
-
+import IdeaFocus from '../screens/Ideas/IdeaFocus';
 import { BackButton, AddButton } from '../components/headers/idea-header';
 import { colors } from '../utils/ui-constants';
 import IdeaMain from '../screens/Ideas/IdeaMain';
@@ -52,6 +52,16 @@ export default function MainNavigator() {
     {
       screenName: 'Create Idea',
       component: CreateIdea,
+      options: {
+        headerTransparent: 'true',
+        headerStyle: { backgroundColor: colors.background_color },
+        headerTitle: (props) => <LogoTitle {...props} />,
+        headerLeft: () => <BackButton />,
+      },
+    },
+    {
+      screenName: 'Idea Focus',
+      component: IdeaFocus,
       options: {
         headerTransparent: 'true',
         headerStyle: { backgroundColor: colors.background_color },

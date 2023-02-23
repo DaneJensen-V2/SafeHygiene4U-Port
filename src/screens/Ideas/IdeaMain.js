@@ -11,7 +11,8 @@ import {
 import { HStack, Icon, Input, FlatList } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { colors, fontNames, icons } from '../../utils/ui-constants';
-import {textStyles} from '../../styles/Styles';
+import { textStyles } from '../../styles/Styles';
+import { useNavigation } from '@react-navigation/native';
 
 // Main Idea Screen that lists ideas in a flatlist. Users can select an idea or
 // create a new idea from this screen.
@@ -127,16 +128,25 @@ const styles = StyleSheet.create({
 });
 
 function IdeaList({ dataSource }) {
+  const navigation = useNavigation();
+
+  const goToIdea = (ID, Title) => {
+    navigation.push('Idea Focus', {
+      ID: ID,
+      title: Title,
+    });
+  };
+
   return (
     <FlatList
       ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
       style={{ flex: 1 }}
       data={dataSource}
-      keyExtractor={(index) => index.toString()}
+      // keyExtractor={(index) => index.toString()} was causing error
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => {
-            console.log(item.title);
+            goToIdea(item.id, item.title);
           }}
         >
           <HStack style={styles.ideaItem}>

@@ -13,7 +13,7 @@ import { StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { icons, colors } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
-import { useAuth } from "../../context/AuthenticationContext";
+import { useAuth } from '../../context/AuthenticationContext';
 import { useNavigation } from '@react-navigation/native';
 import MainButton from '../buttons/main-button';
 import TextButton from '../buttons/text-button';
@@ -21,7 +21,6 @@ import Logo from '../../../assets/logo-full-lower.png';
 import { useContext } from 'react';
 import * as EmailValidator from 'email-validator';
 import { Main } from '../../screens/Main';
-import { useAuth } from '../../context/AuthenticationContext';
 
 const LoginForm = () => {
   const [formData, setData] = React.useState({});
@@ -37,7 +36,7 @@ const LoginForm = () => {
   const createAccount = () => {
     navigation.navigate('Register');
   };
-  
+
   const validate = () => {
     let newErrors = { ...errors };
 
@@ -61,23 +60,21 @@ const LoginForm = () => {
 
     return false;
   };
-  
+
   const onSubmit = async () => {
     validate() ? await valid() : invalid();
   };
 
   const valid = async () => {
-    console.log('Submitted')
+    console.log('Submitted');
     onLogin(formData.email, formData.password);
-    if (isAuthenticated)
-      navigation.navigate('Main');
+    if (isAuthenticated) navigation.navigate('Main');
     else invalid();
-  }
+  };
 
   const invalid = () => {
-    console.log('Validation failed')
-  }
-  
+    console.log('Validation failed');
+  };
 
   return (
     <Square width='80%' height='50%' bg='white' rounded='lg' alignItems='center'>
