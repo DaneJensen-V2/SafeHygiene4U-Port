@@ -15,7 +15,7 @@ import { icons, colors } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
 import { useAuth } from '../../context/AuthenticationContext';
 import { useNavigation } from '@react-navigation/native';
-import MainButton from '../buttons/main-button';
+import LoadingButton from '../buttons/loading-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full-lower.png';
 import { useContext } from 'react';
@@ -26,6 +26,7 @@ const LoginForm = () => {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const { onLogin, isAuthenticated } = useAuth();
   const navigation = useNavigation();
   const auth = useAuth();
@@ -67,7 +68,8 @@ const LoginForm = () => {
 
   const valid = async () => {
     console.log('Submitted');
-    onLogin(formData.email, formData.password);
+    setLoading(true);
+    onLogin(formData.email, formData.password).then(() => setLoading(false));
     if (isAuthenticated) navigation.navigate('Main');
     else invalid();
   };
@@ -146,11 +148,13 @@ const LoginForm = () => {
             {errors.password}
           </FormControl.ErrorMessage>
         </FormControl>
-        <MainButton
+        <LoadingButton
           style={loginStyles.mainButton}
           text='Sign In'
-          onPress={onSubmit}
           bgColor={colors.robin_egg_blue}
+          onPress={onSubmit}
+          isLoading={loading}
+          loadingText='Signing In'
         />
         <TextButton
           style={loginStyles.textButton}
