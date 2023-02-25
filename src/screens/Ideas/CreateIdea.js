@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { Text, StyleSheet, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useState, useRef } from 'react';
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Pressable,
+} from 'react-native';
 import {
   HStack,
   Input,
@@ -11,9 +18,9 @@ import {
   ScrollView,
 } from 'native-base';
 import { colors, fontNames } from '../../utils/ui-constants';
-
 import LoadingButton from '../../components/buttons/loading-button';
-
+import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+import moment from 'moment';
 // Screen for creating an idea. Lets user type in a title, content, content type,
 // and save the idea to their account.
 
@@ -23,31 +30,90 @@ export default function CreateIdea() {
   const [isSuggestedIdea, setSuggestedIdea] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  const richText = useRef();
+  const [descHTML, setDescHTML] = useState('');
+  const [showDescError, setShowDescError] = useState(false);
+
+  var currentDate = moment().format('YYYYMMDD');
+
+  const richTextHandle = (descriptionText) => {
+    if (descriptionText) {
+      setShowDescError(false);
+      setDescHTML(descriptionText);
+      console.log(descHTML);
+    } else {
+      setShowDescError(true);
+      setDescHTML('');
+    }
+  };
+
   const SaveIdea = () => {
     setLoading(true);
   };
 
+  const dismissKeyboards = () => {
+    //    richText.current?.dismissKeyboard();
+    //   Keyboard.dismiss;
+  };
+
   return (
-    <ScrollView backgroundColor={colors.background_color}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <ScrollView backgroundColor={colors.background_color} keyboardShouldPersistTaps='never'>
+      <TouchableWithoutFeedback onPress={dismissKeyboards} accessible={false}>
         <View style={styles.container}>
-          <Text style={styles.mainHeading}>New Idea</Text>
-          <Text style={styles.subHeading}>Title</Text>
-          <Input size='md' defaultValue='[234324] New Idea' placeholder='Enter title...'>
-            {' '}
-          </Input>
-          <Text style={styles.subHeading}>Content</Text>
-          <TextArea size='md' placeholder='Type your idea here...' h='250 ' />
+          <Pressable onPress={() => richText.current?.dismissKeyboard()}>
+            <Text style={styles.mainHeading}>New Idea</Text>
+            <Text style={styles.subHeading}>Title</Text>
+            <Input
+              backgroundColor={colors.white}
+              size='md'
+              defaultValue={'[' + currentDate + '] New Idea'}
+              placeholder='Enter title...'
+            >
+              {' '}
+            </Input>
+            <Text style={styles.subHeading}>Content</Text>
+          </Pressable>
+          <View style={styles.richTextContainer}>
+            <RichEditor
+              ref={richText}
+              onChange={richTextHandle}
+              placeholder='Write your idea here...'
+              androidHardwareAccelerationDisabled={true}
+              style={styles.richTextEditorStyle}
+              initialHeight={250}
+              autoCapitalize={true}
+              autoCorrect={true}
+              //Can't get this to not be focused initially for some reason.
+              initialFocus={false}
+            />
+            <RichToolbar
+              editor={richText}
+              selectedIconTint='#873c1e'
+              iconTint='#312921'
+              actions={[
+                actions.setBold,
+                actions.setItalic,
+                actions.insertBulletsList,
+                actions.insertOrderedList,
+                actions.insertLink,
+                actions.setStrikethrough,
+                actions.setUnderline,
+              ]}
+              style={styles.richTextToolbarStyle}
+            />
+          </View>
           <Text style={styles.subHeading}>Content Type</Text>
           <Select
+            backgroundColor={colors.white}
             selectedValue={contentType}
             size='md'
             minWidth='200'
             accessibilityLabel='Choose Service'
             placeholder='Select Content Type'
             _selectedItem={{
-              bg: 'teal.600',
+              bg: colors.robin_egg_blue,
               endIcon: <CheckIcon size='5' />,
+              borderRadius: 'md',
             }}
             mt={1}
             onValueChange={(itemValue) => setContentType(itemValue)}
@@ -62,7 +128,7 @@ export default function CreateIdea() {
             <Select.Item label='Internal Document' value='document' />
             <Select.Item label='Slideshare' value='slideshare' />
           </Select>
-          <View height={40} />
+          <View height={30} />
 
           <HStack alignItems='center' paddingLeft={1} space={4}>
             <Text style={styles.ideaText}>Lead generation asset</Text>
@@ -70,9 +136,10 @@ export default function CreateIdea() {
               size='md'
               value={isLeadGenerationAsset}
               onValueChange={(val) => setLeadAsset(val)}
+              onTrackColor={colors.robin_egg_blue}
             />
           </HStack>
-          <View height={40} />
+          <View height={20} />
 
           <HStack alignItems='center' paddingLeft={1} space={4}>
             <Text style={styles.ideaText}>Would you like to suggest this idea?</Text>
@@ -80,9 +147,10 @@ export default function CreateIdea() {
               size='md'
               value={isSuggestedIdea}
               onValueChange={(val) => setSuggestedIdea(val)}
+              onTrackColor={colors.robin_egg_blue}
             />
           </HStack>
-          <View height={40} />
+          <View height={20} />
           <Center>
             <LoadingButton
               text='Save'
@@ -91,6 +159,7 @@ export default function CreateIdea() {
               isLoading={isLoading}
               loadingText='Saving'
             />
+            <View height={30} />
           </Center>
         </View>
       </TouchableWithoutFeedback>
@@ -130,5 +199,45 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 15,
     marginBottom: 5,
+  },
+
+  htmlBoxStyle: {
+    height: 200,
+    width: 330,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 10,
+  },
+
+  richTextContainer: {
+    display: 'flex',
+    flexDirection: 'column-reverse',
+    width: '100%',
+    marginBottom: 10,
+  },
+
+  richTextEditorStyle: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderWidth: 0,
+    borderColor: colors.bright_turquoise,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    fontSize: 20,
+  },
+
+  richTextToolbarStyle: {
+    backgroundColor: colors.bright_turquoise,
+    borderColor: colors.bright_turquoise,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderWidth: 1,
   },
 });
