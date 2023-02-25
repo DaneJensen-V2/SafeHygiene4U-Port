@@ -26,7 +26,7 @@ const getSecureKeys = async (keysToRetrieve) => {
  * Function to get a refreshed access token from Repurpost.
  */
 const getRefreshedToken = async (accessToken, refreshToken) => {
-  return fetch(REPURPOST_LOGIN, {
+  return fetch(API_CONSTANTS.REPURPOST_LOGIN, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
