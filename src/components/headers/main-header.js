@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
 import { Image } from 'react-native';
-import { Menu, Button, Icon } from 'native-base';
+import { Menu, Button, Icon, ChevronDownIcon, Center } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { colors, icons } from '../../utils/ui-constants';
+import { colors, icons, fontNames } from '../../utils/ui-constants';
 // Custom header for navigation. This one is implemented in the home screen
 
 // Lowercase logo for center of nav bar
@@ -26,9 +26,9 @@ export function WorkspaceSelectButton() {
   // TODO: Menu items are hardcoded, dynamically load them from user data
   return (
     <Menu w='200' trigger={(triggerProps) => <WorkspaceButton test={triggerProps} />}>
-      <Menu.Item>Workspace 1</Menu.Item>
-      <Menu.Item>Workspace 2</Menu.Item>
-      <Menu.Item>Workspace 3</Menu.Item>
+      <Menu.Item _text={{ color: colors.robin_egg_blue }}>Workspace 1</Menu.Item>
+      <Menu.Item _text={{ color: colors.robin_egg_blue }}>Workspace 2</Menu.Item>
+      <Menu.Item _text={{ color: colors.robin_egg_blue }}>Workspace 3</Menu.Item>
     </Menu>
   );
 }
@@ -36,22 +36,26 @@ export function WorkspaceSelectButton() {
 function WorkspaceButton({ test }) {
   return (
     <Button
-      leftIcon={
-        <Icon
-          as={
-            <FontAwesomeIcon icon={icons.pen} size={30} color={colors.white} transform='shrink-5' />
-          }
-        />
-      }
-      backgroundColor={colors.ebony_clay}
-      rounded='full'
+      rightIcon={<ChevronDownIcon mt='0.5' color={colors.robin_egg_blue}></ChevronDownIcon>}
+      backgroundColor={colors.white}
+      rounded='md'
       variant='solid'
-      marginRight={2}
+      marginRight={0}
       height={9}
-      width={9}
+      width={110}
       testID='main-button'
       {...test}
-    />
+      textAlign='center'
+      _text={{
+        color: colors.robin_egg_blue,
+        fontFamily: fontNames.Poppins_Regular,
+        color: colors.robin_egg_blue,
+        fontSize: 12,
+        textAlign: 'center',
+      }}
+    >
+      Workspaces
+    </Button>
   );
 }
 
@@ -65,13 +69,13 @@ export function MenuButton() {
             <FontAwesomeIcon
               icon={icons.bars}
               size={30}
-              color={colors.white}
-              transform='shrink-4'
+              color={colors.robin_egg_blue}
+              transform='shrink-5'
             />
           }
         />
       }
-      backgroundColor={colors.ebony_clay}
+      backgroundColor={colors.white}
       rounded='full'
       variant='solid'
       marginRight={2}
