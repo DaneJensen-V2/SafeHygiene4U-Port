@@ -66,13 +66,11 @@ export default function IdeaFocus() {
           />
         </HStack>
         <Text style={styles.ideaLabel}>Jan 23, 2023</Text>
-        <View height={20} />
-        <Text style={styles.ideaLabel}>Content</Text>
         <RichEditor
           ref={richText}
           androidHardwareAccelerationDisabled={true}
           style={styles.richTextEditorStyle}
-          initialHeight={10}
+          initialHeight={525}
           autoCapitalize={true}
           autoCorrect={true}
           //Can't get this to not be focused initially for some reason.
@@ -104,11 +102,34 @@ export default function IdeaFocus() {
             </HStack>
           </VStack>
         </View>
-        <View height={40} />
-        <Center>
-          <MainButton text={'Approve'} bgColor={colors.robin_egg_blue}></MainButton>
-          <MainButton text={'Reject'} bgColor={colors.brilliant_rose}></MainButton>
-        </Center>
+        <View height={20} />
+        <HStack justifyContent='center' space={16}>
+          <Button
+            backgroundColor={colors.brilliant_rose}
+            rounded='xl'
+            shadow='4'
+            variant='solid'
+            marginBottom={2}
+            marginTop={2}
+            height={50}
+            width={125}
+          >
+            <Text style={styles.heading}>Reject</Text>
+          </Button>
+          <Button
+            backgroundColor={colors.robin_egg_blue}
+            rounded='xl'
+            shadow='4'
+            variant='solid'
+            marginBottom={2}
+            marginTop={2}
+            height={50}
+            width={125}
+          >
+            <Text style={styles.heading}>Approve</Text>
+          </Button>
+        </HStack>
+        <View height={30} />
       </View>
     </ScrollView>
   );
@@ -135,6 +156,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 25,
+    justifyContent: 'center',
+  },
+  heading: {
+    fontFamily: fontNames.Poppins_Bold,
+    color: colors.white,
+    fontSize: 16,
   },
   ideaLabel: {
     fontFamily: fontNames.Poppins_Light,
@@ -156,7 +183,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   richTextEditorStyle: {
+    borderWidth: 5,
     borderRadius: 10,
+    borderColor: colors.white,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
