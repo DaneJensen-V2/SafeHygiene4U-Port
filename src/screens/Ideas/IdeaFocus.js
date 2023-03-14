@@ -19,6 +19,7 @@ import { textStyles } from '../../styles/Styles';
 import { useRoute } from '@react-navigation/native';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 import MainButton from '../../components/buttons/main-button';
+import RenderHTML from 'react-native-render-html';
 
 // Main Idea Screen that lists ideas in a flatlist. Users can select an idea or
 // create a new idea from this screen.
@@ -30,7 +31,7 @@ export default function IdeaFocus() {
   const richText = useRef();
 
   const tempInitialContent =
-    '<div><b>Here is my idea:&nbsp;</b></div><div><ul><li>We make an app</li><li>Post it to the App Store</li><li><i>Profit</i></li></ul><div><i></i></div></div>';
+    '<div><b>Here is my idea:&nbsp;</b></div><div><ul><li>We make an app</li><li>Post it to the App Store</li><li><i>Profit</i></li></ul><div><i></i></div></div><div><b>Here is my idea:&nbsp;</b></div><div><ul><li>We make an app</li><li>Post it to the App Store</li><li><i>Profit</i></li></ul><div><i></i></div></div>';
 
   useEffect(() => {
     console.log('Loading Idea ' + ID);
@@ -79,6 +80,9 @@ export default function IdeaFocus() {
           disabled={true}
         />
         <View height={20} />
+        <View style={styles.richTextEditorStyle}>
+          <RenderHTML contentWidth={150} back source={{ html: tempInitialContent }} />
+        </View>
 
         <Text style={styles.ideaLabel}>Content Settings</Text>
         <View style={styles.contentSettings}>
