@@ -1,6 +1,7 @@
 const colors = {
   // these colors are from Repurpost brand style guide
-  robin_egg_blue: '#00D6BA',
+  logoBlue: '#38B6FF',
+  darkBlue: '#24759E',
   bright_turquoise: '#00F5D4',
   medium_purple: '#9B5DE5',
   brilliant_rose: '#F15BB5',
@@ -10,8 +11,11 @@ const colors = {
   pickled_bluewood: '#33475B',
   white: '#FFFFFF',
   catskill_white: '#EAF0F6',
-  light_gray: '#798693',
+  light_gray: '#999999',
   background_color: '#F4F6F8',
+  redColor: '#FC4D3D',
+  black: '#000000',
+  starYellow: '#ffd60b',
 };
 
 const fontNames = {
@@ -43,6 +47,14 @@ const icons = {
   leftArrow: 'fa-solid fa-arrow-left',
   search: 'fa-solid fa-magnifying-glass',
   rightChevron: 'fa-solid fa-chevron-right',
+  faMap: 'fa-regular fa-map',
+  list: 'fa-solid fa-list',
+  locationArrow: 'fa-solid fa-location-arrow',
+  sliders: 'fa-solid fa-sliders',
+  check: 'fa-solid fa-check',
+  x: 'fa-solid fa-x',
+  shower: 'fa-solid fa-shower',
+  locationDot: 'fa-solid fa-location-dot',
 };
 
 const authenticationConstants = {

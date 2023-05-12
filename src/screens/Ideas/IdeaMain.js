@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { colors, fontNames, icons } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../context/AuthenticationContext';
+import { API_CONSTANTS } from '../../utils/constants';
 
 // Main Idea Screen that lists ideas in a flatlist. Users can select an idea or
 // create a new idea from this screen.
@@ -39,13 +41,26 @@ export default function IdeaMain() {
     },
   ];
 
+  const auth = useAuth();
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   useEffect(() => {
-    setMasterDataSource(data);
-    setFilteredDataSource(data);
+    //Temp get ideas
+    const getIdeas = async () => {
+      const response = await auth.makeAuthenticatedRequest({
+        headers: {
+          ...API_CONSTANTS.REPURPOST_GET_IDEAS_HEADERS,
+        },
+        host: API_CONSTANTS.REPURPOST_GET_IDEAS,
+      });
+
+      //console.log(JSON.stringify(response, null, 2));
+      setMasterDataSource(response.list);
+      setFilteredDataSource(response.list);
+    };
+    getIdeas();
   }, []);
 
   const searchFilterFunction = (text) => {
@@ -130,11 +145,8 @@ const styles = StyleSheet.create({
 function IdeaList({ dataSource }) {
   const navigation = useNavigation();
 
-  const goToIdea = (ID, Title) => {
-    navigation.push('Idea Focus', {
-      ID: ID,
-      title: Title,
-    });
+  const goToIdea = (item) => {
+    navigation.push('Idea Focus', item);
   };
 
   return (
@@ -146,13 +158,13 @@ function IdeaList({ dataSource }) {
       renderItem={({ item }) => (
         <TouchableOpacity
           onPress={() => {
-            goToIdea(item.id, item.title);
+            goToIdea(item);
           }}
         >
           <HStack style={styles.ideaItem}>
             <Text adjustsFontSizeToFit numberOfLines={1} style={styles.ideaText}>
               {' '}
-              [{item.id}] {item.title}
+              {item.title}
             </Text>
             <Icon
               as={

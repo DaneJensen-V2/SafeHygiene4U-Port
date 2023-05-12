@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   FormControl,
   VStack,
@@ -11,18 +11,17 @@ import {
 } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useNavigation } from '@react-navigation/native';
+import * as EmailValidator from 'email-validator';
 import { icons, colors } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
 import { useAuth } from '../../context/AuthenticationContext';
-import { useNavigation } from '@react-navigation/native';
 import LoadingButton from '../buttons/loading-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full-lower.png';
-import { useContext } from 'react';
-import * as EmailValidator from 'email-validator';
 import { Main } from '../../screens/Main';
 
-const LoginForm = () => {
+function LoginForm() {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
@@ -39,7 +38,7 @@ const LoginForm = () => {
   };
 
   const validate = () => {
-    let newErrors = { ...errors };
+    const newErrors = { ...errors };
 
     if (formData.email === undefined || formData.email === '') {
       newErrors.email = 'Email is required';
@@ -171,7 +170,7 @@ const LoginForm = () => {
       </VStack>
     </Square>
   );
-};
+}
 
 const loginStyles = StyleSheet.create({
   container: {

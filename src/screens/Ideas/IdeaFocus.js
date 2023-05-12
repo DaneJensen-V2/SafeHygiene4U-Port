@@ -1,52 +1,50 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, StyleSheet, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import {
-  VStack,
-  HStack,
-  Button,
-  Icon,
-  CheckIcon,
-  Switch,
-  Center,
-  ScrollView,
-  Divider,
-  Spacer,
-} from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { VStack, HStack, Button, Icon, ScrollView, Divider, Spacer } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { colors, fontNames, icons } from '../../utils/ui-constants';
-import { textStyles } from '../../styles/Styles';
-import { useRoute } from '@react-navigation/native';
-import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
-import MainButton from '../../components/buttons/main-button';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import RenderHTML from 'react-native-render-html';
+import { colors, fontNames, icons } from '../../utils/ui-constants';
 
 // Main Idea Screen that lists ideas in a flatlist. Users can select an idea or
 // create a new idea from this screen.
 
 export default function IdeaFocus() {
   const route = useRoute();
-  const { title } = route.params;
-  const { ID } = route.params;
-  const richText = useRef();
-
-  const tempInitialContent =
-    '<div><b>Here is my idea:&nbsp;</b></div><div><ul><li>We make an app</li><li>Post it to the App Store</li><li><i>Profit</i></li></ul><div><i></i></div></div><div><b>Here is my idea:&nbsp;</b></div><div><ul><li>We make an app</li><li>Post it to the App Store</li><li><i>Profit</i></li></ul><div><i></i></div></div>';
+  const item = route.params;
+  const [content, setContent] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
-    console.log('Loading Idea ' + ID);
+    console.log(`Loading Idea ${item._id}`);
+    console.log(`Description:${item.description}`);
+    if (typeof item.description !== 'undefined' && item.description != null) {
+      setContent(item.description);
+    } else {
+      setContent('No Content to display.');
+    }
   }, []);
 
-  const setText = () => {
-    console.log('Setting Text');
+  const tagsStyles = {
+    body: {
+      backgroundColor: 'white',
+      fontSize: '1.1rem',
+    },
   };
+
+  const editIdea = (idea) => {
+    console.log('Test');
+  };
+
+  const { width } = useWindowDimensions();
 
   return (
     <ScrollView backgroundColor={colors.background_color}>
       <View style={styles.container}>
         <HStack>
-          <Text style={styles.mainHeading}>{title}</Text>
-          <Spacer></Spacer>
+          <Text style={styles.mainHeading}>{item.title}</Text>
+          <Spacer />
           <Button
             leftIcon={
               <Icon
@@ -60,56 +58,45 @@ export default function IdeaFocus() {
                 }
               />
             }
-            backgroundColor={'transparent'}
+            backgroundColor='transparent'
             marginRight={2}
             height={9}
             width={9}
+            onPress={() => navigation.navigate('Edit Idea', item)}
           />
         </HStack>
         <Text style={styles.ideaLabel}>Jan 23, 2023</Text>
-        <RichEditor
-          ref={richText}
-          androidHardwareAccelerationDisabled={true}
-          style={styles.richTextEditorStyle}
-          initialHeight={525}
-          autoCapitalize={true}
-          autoCorrect={true}
-          //Can't get this to not be focused initially for some reason.
-          initialFocus={false}
-          initialContentHTML={tempInitialContent}
-          disabled={true}
-        />
-        <View height={20} />
         <View style={styles.richTextEditorStyle}>
-          <RenderHTML contentWidth={150} back source={{ html: tempInitialContent }} />
+          <RenderHTML contentWidth={width} tagsStyles={tagsStyles} source={{ html: content }} />
         </View>
+        <View height={20} />
 
         <Text style={styles.ideaLabel}>Content Settings</Text>
         <View style={styles.contentSettings}>
           <VStack>
             <HStack>
               <Text style={styles.contentSetting}>Content Type: </Text>
-              <Spacer></Spacer>
+              <Spacer />
               <Text style={styles.ideaText}>Blog Post</Text>
             </HStack>
-            <Divider style={styles.divider}></Divider>
+            <Divider style={styles.divider} />
             <HStack>
               <Text style={styles.contentSetting}>Lead Generation Asset: </Text>
-              <Spacer></Spacer>
-              <Text style={styles.ideaText}>No</Text>
+              <Spacer />
+              <Text style={styles.ideaText}>{item.isLead ? 'Yes' : 'No'}</Text>
             </HStack>
-            <Divider style={styles.divider}></Divider>
+            <Divider style={styles.divider} />
             <HStack>
               <Text style={styles.contentSetting}>Status: </Text>
-              <Spacer></Spacer>
-              <Text style={styles.ideaText}>Hidden</Text>
+              <Spacer />
+              <Text style={styles.ideaText}>{item.status}</Text>
             </HStack>
           </VStack>
         </View>
         <View height={20} />
         <HStack justifyContent='center' space={16}>
           <Button
-            backgroundColor={colors.brilliant_rose}
+            backgroundColor={colors.redColor}
             rounded='xl'
             shadow='4'
             variant='solid'
@@ -152,7 +139,7 @@ const styles = StyleSheet.create({
   mainHeading: {
     fontFamily: fontNames.Poppins_Bold,
     color: colors.ebony_clay,
-    fontSize: 24,
+    fontSize: 23,
   },
   contentSettings: {
     height: 165,
@@ -189,7 +176,10 @@ const styles = StyleSheet.create({
   richTextEditorStyle: {
     borderWidth: 5,
     borderRadius: 10,
+    padding: 10,
+    minHeight: 525,
     borderColor: colors.white,
+    backgroundColor: colors.white,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

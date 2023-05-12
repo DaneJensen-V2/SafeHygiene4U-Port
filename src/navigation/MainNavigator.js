@@ -10,8 +10,10 @@ import { colors } from '../utils/ui-constants';
 import IdeaMain from '../screens/Ideas/IdeaMain';
 import { SocialPost } from '../screens/SocialPost/SocialPost';
 import { BlogPost } from '../screens/BlogPost';
+import EditIdea from '../screens/Ideas/EditIdea';
 import CreateIdea from '../screens/Ideas/CreateIdea';
-
+import HomeList from '../screens/Home/HomeList';
+import ServiceFocus from '../screens/Home/ServiceFocus';
 // returns an object containing 2 properties: Screen and Navigator.
 // Both are used for configuring the navigator.
 
@@ -26,12 +28,17 @@ export default function MainNavigator() {
     {
       screenName: 'HomeScreen',
       component: HomeScreen,
+
       options: {
         headerTransparent: 'true',
+        headerShown: false,
+        animation: 'none',
+        /*
         headerStyle: { backgroundColor: colors.background_color },
         headerTitle: (props) => <LogoTitle {...props} />,
         headerRight: (props) => <WorkspaceSelectButton {...props} />,
         headerLeft: () => <MenuButton />,
+        */
       },
     },
     {
@@ -39,48 +46,18 @@ export default function MainNavigator() {
       component: Main,
     },
     {
-      screenName: 'Ideas',
-      component: IdeaMain,
+      screenName: 'Home List',
+      component: HomeList,
       options: {
         headerTransparent: 'true',
-        headerStyle: { backgroundColor: colors.background_color },
-        headerTitle: (props) => <LogoTitle {...props} />,
-        headerRight: () => <AddButton />,
-        headerLeft: () => <BackButton />,
+        headerShown: false,
+        animation: 'none',
       },
     },
     {
-      screenName: 'Create Idea',
-      component: CreateIdea,
-      options: {
-        headerTransparent: 'true',
-        headerStyle: { backgroundColor: colors.background_color },
-        headerTitle: (props) => <LogoTitle {...props} />,
-        headerLeft: () => <BackButton />,
-      },
-    },
-    {
-      screenName: 'Idea Focus',
-      component: IdeaFocus,
-      options: {
-        headerTransparent: 'true',
-        headerStyle: { backgroundColor: colors.background_color },
-        headerTitle: (props) => <LogoTitle {...props} />,
-        headerLeft: () => <BackButton />,
-      },
-    },
-    {
-      screenName: 'Social Post',
-      component: SocialPost,
-    },
-    {
-      screenName: 'Blog Post',
-      component: BlogPost,
-    },
-    {
-      screenName: 'Details',
-      component: Details,
-      options: { title: 'Details' },
+      screenName: 'Service Focus',
+      component: ServiceFocus,
+      options: {},
     },
   ];
 
