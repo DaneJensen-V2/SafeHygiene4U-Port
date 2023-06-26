@@ -55,7 +55,7 @@ export default function MainNavigator() {
       },
     },
     {
-      screenName: 'Service Focus',
+      screenName: 'Service Details',
       component: ServiceFocus,
       options: {},
     },

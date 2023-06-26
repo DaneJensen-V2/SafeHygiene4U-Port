@@ -17,7 +17,6 @@ import { Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from '@expo-googl
 
 import {
   faEnvelope,
-  faCircleXmark,
   faEye,
   faEyeSlash,
   faUser,
@@ -46,6 +45,15 @@ import {
   faX,
   faShower,
   faLocationDot,
+  faShirt,
+  faHandSparkles,
+  faCircleCheck,
+  faCircleXmark,
+  faPhone,
+  faStar,
+  faGlobe,
+  faToilet,
+  faPersonRunning,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { useServices } from '../context/ServicesContext';
@@ -111,6 +119,14 @@ function App() {
             faX,
             faShower,
             faLocationDot,
+            faShirt,
+            faHandSparkles,
+            faCircleCheck,
+            faPhone,
+            faStar,
+            faGlobe,
+            faToilet,
+            faPersonRunning,
           ]
         );
 

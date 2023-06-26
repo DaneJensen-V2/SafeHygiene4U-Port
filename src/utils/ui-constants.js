@@ -13,9 +13,12 @@ const colors = {
   catskill_white: '#EAF0F6',
   light_gray: '#999999',
   background_color: '#F4F6F8',
-  redColor: '#FC4D3D',
   black: '#000000',
   starYellow: '#ffd60b',
+  darkBlue: '#3981A3',
+  greenColor: '#6BCB77',
+  yellowColors: '#F9D923',
+  redColor: '#EB5353',
 };
 
 const fontNames = {
@@ -55,6 +58,15 @@ const icons = {
   x: 'fa-solid fa-x',
   shower: 'fa-solid fa-shower',
   locationDot: 'fa-solid fa-location-dot',
+  shirt: 'fa-solid fa-shirt',
+  sparkles: 'f-solid fa-hand-sparkles',
+  circleX: 'fa-solid fa-circle-xmark',
+  circleCheck: 'fa-solid fa-circle-check',
+  phone: 'fa-solid fa-phone',
+  star: 'fa-solid fa-star',
+  globe: 'fa-solid fa-globe',
+  toilet: 'fa-solid fa-toilet',
+  personRunning: 'fa-solid fa-person-running',
 };
 
 const authenticationConstants = {

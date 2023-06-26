@@ -7,7 +7,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { colors, fontNames, icons } from '../../utils/ui-constants';
 import { useServices } from '../../context/ServicesContext';
 import { async } from '@firebase/util';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 import * as Location from 'expo-location';
 import SideMenu from 'react-native-side-menu';
@@ -360,7 +360,9 @@ export function HomeScreen() {
           borderRightRadius={10}
           onPress={() => {
             console.log('You tapped the button!');
-            navigation.navigate('Home List');
+            navigation.navigate('Home List', {
+              services: Services,
+            });
           }}
           _text={{
             fontFamily: fontNames.Poppins_Regular,

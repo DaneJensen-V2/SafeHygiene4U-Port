@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   SectionList,
   TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button, HStack, VStack, Icon, Input, Spacer } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import MapView, { Marker } from 'react-native-maps';
@@ -18,7 +18,7 @@ import { colors, fontNames, icons } from '../../utils/ui-constants';
 
 // Details screen, just an extra screen to demo pushing and popping screens from a stack
 export default function HomeList() {
-  const DATA = [
+  var DATA = [
     {
       title: 'Showers',
       data: ['Pizza', 'Burger', 'Risotto'],
@@ -33,14 +33,37 @@ export default function HomeList() {
     },
   ];
 
+  const route = useRoute();
+  const { services } = route.params;
+  const [Services, setServcices] = useState([]);
+
+  useEffect(() => {
+    for (let i = 0; i < DATA.length; i++) {
+      DATA[i].data = services[i];
+    }
+    console.log('Test');
+    setServcices(DATA);
+  }, []);
+
   function listItem(item) {
     const navigation = useNavigation();
+    var icon = icons.shower;
+    if (item.serviceType == 'Shower') {
+      icon = icons.shower;
+    } else if (item.serviceType == 'Clothing') {
+      icon = icons.shirt;
+    } else {
+      icon = icons.sparkles;
+    }
 
     return (
       <View style={styles.item}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Service Focus');
+            navigation.setOptions({ title: item.name });
+            navigation.navigate('Service Details', {
+              service: item,
+            });
           }}
         >
           <HStack space={3}>
@@ -54,16 +77,11 @@ export default function HomeList() {
                 justifyContent: 'center',
               }}
             >
-              <FontAwesomeIcon
-                icon={icons.shower}
-                size={35}
-                color={colors.white}
-                transform='right-1'
-              />
+              <FontAwesomeIcon icon={icon} size={35} color={colors.white} transform='right-1' />
             </View>
             <VStack space={1}>
               <Text numberOfLines={1} style={styles.itemHeading}>
-                Mountainside Fitness
+                {item.name}
               </Text>
 
               <HStack space={5}>
@@ -77,7 +95,7 @@ export default function HomeList() {
                   <StarRating
                     style={{ paddingTop: 3 }}
                     starStyle={{ marginHorizontal: 0 }}
-                    rating={1}
+                    rating={0}
                     maxStars={5}
                     color={colors.starYellow}
                     starSize={20}
@@ -135,8 +153,8 @@ export default function HomeList() {
         <FilterStack />
         <SectionList
           style={styles.list}
-          sections={DATA}
-          keyExtractor={(item, index) => item + index}
+          sections={Services}
+          keyExtractor={(item, index) => item.name + index}
           renderItem={({ item }) => listItem(item)}
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.header}>{title}</Text>
