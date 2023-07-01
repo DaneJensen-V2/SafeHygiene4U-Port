@@ -8,6 +8,7 @@ import {
   Platform,
   SectionList,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
@@ -83,10 +84,10 @@ const LoadingView = () => {
   );
 };
 
-const ButtonView = ({ color, icon, text }) => {
+const ButtonView = ({ color, icon, text, onPress }) => {
   return (
     <VStack>
-      <View
+      <Button
         style={{
           backgroundColor: color,
           height: 60,
@@ -94,9 +95,10 @@ const ButtonView = ({ color, icon, text }) => {
           borderRadius: 60 / 2,
           alignItems: 'center',
         }}
+        onPress={onPress}
       >
-        <FontAwesomeIcon icon={icon} size={50} color={colors.white} transform='shrink-5 down-1' />
-      </View>
+        <FontAwesomeIcon icon={icon} size={50} color={colors.white} transform='shrink-5 ' />
+      </Button>
       <Text
         style={{
           width: '100%',
@@ -178,7 +180,7 @@ const LoadedView = ({ service }) => {
         <View
           style={{
             backgroundColor: colors.white,
-            height: 290,
+            height: 278,
             width: '90%',
             borderRadius: 15,
           }}
@@ -305,17 +307,49 @@ const LoadedView = ({ service }) => {
                 4:30 AM - 9:00 PM
               </Text>
             </HStack>
-            <HStack style={{ alignSelf: 'center', width: '80%', paddingTop: 10 }}>
-              <ButtonView color={colors.greenColor} icon={icons.phone} text={'Call'}></ButtonView>
+            <HStack style={{ alignSelf: 'center', width: '90%', paddingTop: 10 }}>
+              <ButtonView
+                color={colors.greenColor}
+                icon={icons.phone}
+                text={'Call'}
+                onPress={() => {
+                  console.log('Call');
+                  Linking.openURL(`tel:${service.phoneNumber}`);
+                }}
+              ></ButtonView>
               <Spacer></Spacer>
               <ButtonView
                 color={colors.yellowColors}
                 icon={icons.star}
                 text={'Reviews'}
+                onPress={() => {
+                  console.log('Reviews');
+                }}
               ></ButtonView>
               <Spacer></Spacer>
 
-              <ButtonView color={colors.redColor} icon={icons.globe} text={'Website'}></ButtonView>
+              <ButtonView
+                color={colors.redColor}
+                icon={icons.globe}
+                text={'Website'}
+                onPress={() => {
+                  console.log('Website');
+                  Linking.openURL(service.website).catch((err) =>
+                    console.error("Couldn't load page", err)
+                  );
+                }}
+              ></ButtonView>
+              <Spacer></Spacer>
+
+              <ButtonView
+                color={colors.darkBlue}
+                icon={icons.compass}
+                text={'Directions'}
+                onPress={() => {
+                  console.log('Directions');
+                  Linking.openURL('geo:0,0?q=' + service.address);
+                }}
+              ></ButtonView>
             </HStack>
           </VStack>
         </View>

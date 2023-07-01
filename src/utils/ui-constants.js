@@ -67,6 +67,7 @@ const icons = {
   globe: 'fa-solid fa-globe',
   toilet: 'fa-solid fa-toilet',
   personRunning: 'fa-solid fa-person-running',
+  compass: 'fa-regular fa-compass',
 };
 
 const authenticationConstants = {

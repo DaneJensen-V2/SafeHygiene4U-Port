@@ -25,6 +25,7 @@ import {
   faClock,
   faPenToSquare,
   faMap,
+  faCompass,
 } from '@fortawesome/free-regular-svg-icons';
 
 import * as Font from 'expo-font';
@@ -127,6 +128,7 @@ function App() {
             faGlobe,
             faToilet,
             faPersonRunning,
+            faCompass,
           ]
         );
 

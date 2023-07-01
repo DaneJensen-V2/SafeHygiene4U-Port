@@ -33,6 +33,10 @@ export function HomeScreen() {
 
   const getData = async () => {
     var serviceList = [];
+    setShowers([]);
+    setClothing([]);
+    setNonProfits([]);
+
     console.log('Getting Data');
     const querySnapshot = await getDocs(collection(db, 'Services'));
 
@@ -56,6 +60,7 @@ export function HomeScreen() {
   };
 
   useEffect(() => {
+    console.log('Use Effect');
     getData();
   }, []);
 
@@ -117,7 +122,8 @@ export function HomeScreen() {
                     }}
                     key={subindex}
                     title={val.name}
-                  />
+                    description={'test'}
+                  ></Marker>
                 );
               });
             })}
@@ -406,5 +412,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  markerImage: {
+    width: 25,
+    height: 25,
   },
 });
