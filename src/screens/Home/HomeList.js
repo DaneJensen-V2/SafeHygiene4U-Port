@@ -36,6 +36,8 @@ export default function HomeList() {
   const route = useRoute();
   const { services } = route.params;
   const [Services, setServcices] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
 
   useEffect(() => {
     for (let i = 0; i < DATA.length; i++) {
@@ -134,6 +136,7 @@ export default function HomeList() {
           borderRadius='10'
           py='1'
           px='2'
+          onChangeText={(text) => searchFilterFunction(text)}
           InputLeftElement={
             <Icon
               ml='2'
@@ -167,6 +170,26 @@ export default function HomeList() {
     </SafeAreaView>
   );
 }
+const searchFilterFunction = (text) => {
+  // Check if searched text is not blank
+  if (text) {
+    // Inserted text is not blank
+    // Filter the masterDataSource and update FilteredDataSource
+    const newData = Services.filter((item) => {
+      // Applying filter for the inserted text in search bar
+      const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    setFilteredDataSource(newData);
+    setSearch(text);
+  } else {
+    // Inserted text is blank
+    // Update FilteredDataSource with masterDataSource
+    setFilteredDataSource(Services);
+    setSearch(text);
+  }
+};
 
 function FilterStack() {
   return (

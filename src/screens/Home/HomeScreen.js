@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Button, HStack, VStack, Icon, Spacer, Modal, Checkbox } from 'native-base';
+import { Button, HStack, VStack, Icon, Spacer, Modal, Checkbox, Spinner } from 'native-base';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import MapView, { Marker } from 'react-native-maps';
 import { colors, fontNames, icons } from '../../utils/ui-constants';
 import { useServices } from '../../context/ServicesContext';
 import { async } from '@firebase/util';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, where, query } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 import * as Location from 'expo-location';
 import SideMenu from 'react-native-side-menu';
@@ -21,6 +21,8 @@ export function HomeScreen() {
   const [nonProfits, setNonProfits] = useState([]);
   const [mapList, setMapList] = useState([]);
 
+  const [isLoading, setisLoading] = useState(false);
+
   const [location, setLocation] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -30,37 +32,106 @@ export function HomeScreen() {
   const [nonProfitFilter, setnonProfitFilter] = useState(true);
 
   const mapView = React.createRef();
+  const navigation = useNavigation();
 
   const getData = async () => {
     var serviceList = [];
+    setServcices([]);
+    setMapList([]);
+
     setShowers([]);
     setClothing([]);
     setNonProfits([]);
 
     console.log('Getting Data');
-    const querySnapshot = await getDocs(collection(db, 'Services'));
+    setisLoading(true);
 
-    querySnapshot.forEach((doc) => {
-      let serviceType = doc.data().serviceType;
-
-      if (serviceType == 'Shower') {
-        showers.push(doc.data());
-      } else if (serviceType == 'Clothing') {
-        Clothing.push(doc.data());
-      } else {
-        nonProfits.push(doc.data());
-      }
-    });
+    await getShowers();
+    await getClothing();
+    await getNonProfit();
+    await getNonProfit();
 
     serviceList.push(showers);
     serviceList.push(Clothing);
     serviceList.push(nonProfits);
+
     setServcices(serviceList);
-    setMapList(Services);
+    setMapList(serviceList);
+
+    setisLoading(false);
+    console.log('Got Data');
+  };
+
+  const getShowers = async () => {
+    setShowers([]);
+    const showerQuery = query(collection(db, 'Services'), where('serviceType', '==', 'Shower'));
+
+    const querySnapshot = await getDocs(showerQuery);
+
+    querySnapshot.forEach(async (service) => {
+      let name = service.data().name;
+      const reviewQuery = doc(db, 'Reviews', name);
+
+      const reviews = await getDoc(reviewQuery);
+
+      if (reviews.exists()) {
+        console.log('Rating: ', reviews.data()['Overall Rating']);
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log('No reviews!');
+      }
+
+      showers.push(service.data());
+    });
+  };
+
+  const getClothing = async () => {
+    setClothing([]);
+    const showerQuery = query(collection(db, 'Services'), where('serviceType', '==', 'Clothing'));
+
+    const querySnapshot = await getDocs(showerQuery);
+
+    querySnapshot.forEach(async (service) => {
+      let name = service.data().name;
+      const reviewQuery = doc(db, 'Reviews', name);
+
+      const reviews = await getDoc(reviewQuery);
+
+      if (reviews.exists()) {
+        console.log('Rating: ', reviews.data()['Overall Rating']);
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log('No reviews!');
+      }
+
+      Clothing.push(service.data());
+    });
+  };
+
+  const getNonProfit = async () => {
+    setNonProfits([]);
+    const showerQuery = query(collection(db, 'Services'), where('serviceType', '==', 'Non-Profit'));
+
+    const querySnapshot = await getDocs(showerQuery);
+
+    querySnapshot.forEach(async (service) => {
+      let name = service.data().name;
+      const reviewQuery = doc(db, 'Reviews', name);
+
+      const reviews = await getDoc(reviewQuery);
+
+      if (reviews.exists()) {
+        console.log('Rating: ', reviews.data()['Overall Rating']);
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log('No reviews!');
+      }
+
+      nonProfits.push(service.data());
+    });
   };
 
   useEffect(() => {
-    console.log('Use Effect');
     getData();
   }, []);
 
@@ -106,31 +177,140 @@ export function HomeScreen() {
             provider='google'
             style={styles.mapStyle}
             initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
+              latitude: 33.4138,
+              longitude: -111.9243,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }}
           >
             {mapList.map((list, index) => {
+              console.log(index);
+
               return list.map((val, subindex) => {
-                return (
-                  <Marker
-                    coordinate={{
-                      latitude: val.latitude,
-                      longitude: val.longitude,
-                    }}
-                    key={subindex}
-                    title={val.name}
-                    description={'test'}
-                  ></Marker>
-                );
+                {
+                  if (val.serviceType == 'Shower') {
+                    return (
+                      <Marker
+                        coordinate={{
+                          latitude: val.latitude,
+                          longitude: val.longitude,
+                        }}
+                        key={subindex}
+                        title={val.name}
+                        description={val.serviceType}
+                        onCalloutPress={() => {
+                          navigation.setOptions({ title: val.name });
+                          navigation.navigate('Service Details', {
+                            service: val,
+                          });
+                        }}
+                      >
+                        <Icon
+                          as={
+                            <FontAwesomeIcon
+                              icon={icons.shower}
+                              size={35}
+                              color={colors.white}
+                              transform='shrink-5'
+                              style={{
+                                backgroundColor: colors.logoBlue,
+                                borderRadius: 17.5,
+                              }}
+                            />
+                          }
+                        />
+                      </Marker>
+                    );
+                  } else if (val.serviceType == 'Clothing') {
+                    return (
+                      <Marker
+                        coordinate={{
+                          latitude: val.latitude,
+                          longitude: val.longitude,
+                        }}
+                        key={subindex}
+                        title={val.name}
+                        description={val.serviceType}
+                        onCalloutPress={() => {
+                          navigation.setOptions({ title: val.name });
+                          navigation.navigate('Service Details', {
+                            service: val,
+                          });
+                        }}
+                      >
+                        <Icon
+                          as={
+                            <FontAwesomeIcon
+                              icon={icons.shirt}
+                              size={35}
+                              color={colors.white}
+                              transform='shrink-5'
+                              style={{
+                                backgroundColor: colors.black,
+                                borderRadius: 17.5,
+                              }}
+                            />
+                          }
+                        />
+                      </Marker>
+                    );
+                  } else if (val.serviceType == 'Non-Profit') {
+                    return (
+                      <Marker
+                        coordinate={{
+                          latitude: val.latitude,
+                          longitude: val.longitude,
+                        }}
+                        key={subindex}
+                        title={val.name}
+                        description={val.serviceType}
+                        onCalloutPress={() => {
+                          navigation.setOptions({ title: val.name });
+                          navigation.navigate('Service Details', {
+                            service: val,
+                          });
+                        }}
+                      >
+                        <Icon
+                          as={
+                            <FontAwesomeIcon
+                              icon={icons.sparkles}
+                              size={35}
+                              color={colors.white}
+                              transform='shrink-5'
+                              style={{
+                                backgroundColor: colors.greenColor,
+                                borderRadius: 17.5,
+                              }}
+                            />
+                          }
+                        />
+                      </Marker>
+                    );
+                  }
+                }
               });
             })}
           </MapView>
           <View style={{ height: 60 }} />
           <FilterModal></FilterModal>
           <HeaderStack />
+          <Spacer />
+          {isLoading ? (
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: colors.white,
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}
+            >
+              <Spinner size='lg' color={colors.logo}></Spinner>
+            </View>
+          ) : null}
+
           <Spacer />
           <RadioButton />
           <View style={{ height: 55 }} />

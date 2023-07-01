@@ -31,6 +31,7 @@ import { db } from '../../firebase-config';
 
 export default function ServiceFocus() {
   const route = useRoute();
+  const navigation = useNavigation();
   const { service } = route.params;
   const [image, setImage] = useState('');
   const [fullService, setFullService] = useState();
@@ -45,6 +46,8 @@ export default function ServiceFocus() {
   };
 
   useEffect(() => {
+    navigation.setOptions({ title: service.name });
+
     getData();
   }, []);
   return (
@@ -58,6 +61,7 @@ export default function ServiceFocus() {
     </SafeAreaView>
   );
 }
+
 const LoadingView = () => {
   return (
     <Center w='100%'>
