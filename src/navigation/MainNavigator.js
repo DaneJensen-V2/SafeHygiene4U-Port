@@ -54,11 +54,6 @@ export default function MainNavigator() {
         animation: 'none',
       },
     },
-    {
-      screenName: 'Service Details',
-      component: ServiceFocus,
-      options: {},
-    },
   ];
 
   const navigatorScreenOptions = {
@@ -78,6 +73,11 @@ export default function MainNavigator() {
           options={s?.options}
         />
       ))}
+      <Stack.Screen
+        name='Service Details'
+        component={ServiceFocus}
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </Stack.Navigator>
   );
 }
