@@ -12,15 +12,18 @@ import { db } from '../../firebase-config';
 import * as Location from 'expo-location';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../../components/menu';
+import { getAuth } from 'firebase/auth';
+import { UserData } from '../../context/userData';
+import { serviceData } from '../../context/serviceData';
 
 // Details screen, just an extra screen to demo pushing and popping screens from a stack
 export function HomeScreen() {
   const [Services, setServcices] = useState([]);
+
   const [showers, setShowers] = useState([]);
   const [Clothing, setClothing] = useState([]);
   const [nonProfits, setNonProfits] = useState([]);
   const [mapList, setMapList] = useState([]);
-
   const [isLoading, setisLoading] = useState(false);
 
   const [location, setLocation] = useState({});
@@ -30,9 +33,11 @@ export function HomeScreen() {
   const [showerFilter, setShowerFilter] = useState(true);
   const [clothingFilter, setClothingFilter] = useState(true);
   const [nonProfitFilter, setnonProfitFilter] = useState(true);
+  const [reviewFinal, setReviewFinal] = useState([]);
 
   const mapView = React.createRef();
   const navigation = useNavigation();
+  var reviewList = [];
 
   const getData = async () => {
     var serviceList = [];
@@ -49,12 +54,12 @@ export function HomeScreen() {
     await getShowers();
     await getClothing();
     await getNonProfit();
-    await getNonProfit();
 
     serviceList.push(showers);
     serviceList.push(Clothing);
     serviceList.push(nonProfits);
 
+    setReviewFinal(reviewList);
     setServcices(serviceList);
     setMapList(serviceList);
 
@@ -76,9 +81,11 @@ export function HomeScreen() {
 
       if (reviews.exists()) {
         console.log('Rating: ', reviews.data()['Overall Rating']);
+        reviewList.push(reviews.data());
       } else {
         // docSnap.data() will be undefined in this case
         console.log('No reviews!');
+        reviewList.push('None');
       }
 
       showers.push(service.data());
@@ -99,9 +106,11 @@ export function HomeScreen() {
 
       if (reviews.exists()) {
         console.log('Rating: ', reviews.data()['Overall Rating']);
+        reviewList.push(reviews.data());
       } else {
         // docSnap.data() will be undefined in this case
         console.log('No reviews!');
+        reviewList.push('None');
       }
 
       Clothing.push(service.data());
@@ -122,9 +131,11 @@ export function HomeScreen() {
 
       if (reviews.exists()) {
         console.log('Rating: ', reviews.data()['Overall Rating']);
+        reviewList.push(reviews.data());
       } else {
         // docSnap.data() will be undefined in this case
         console.log('No reviews!');
+        reviewList.push('None');
       }
 
       nonProfits.push(service.data());
@@ -134,6 +145,8 @@ export function HomeScreen() {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {}, []);
 
   const goToMyLocation = () => {
     console.log(location);
@@ -159,7 +172,7 @@ export function HomeScreen() {
     })();
   }, []);
 
-  const menu = <Menu />;
+  const menu = <Menu onItemSelected={() => {}} />;
 
   return (
     <SafeAreaView
@@ -475,7 +488,7 @@ export function HomeScreen() {
         height={10}
         width={10}
         testID='main-button'
-        onPress={goToMyLocation}
+        onPress={() => goToMyLocation}
       />
     );
   }
@@ -548,6 +561,7 @@ export function HomeScreen() {
             console.log('You tapped the button!');
             navigation.navigate('Home List', {
               services: Services,
+              reviews: reviewFinal,
             });
           }}
           _text={{

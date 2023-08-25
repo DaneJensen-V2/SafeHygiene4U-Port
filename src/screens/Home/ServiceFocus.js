@@ -32,15 +32,23 @@ import { db } from '../../firebase-config';
 export default function ServiceFocus() {
   const route = useRoute();
   const navigation = useNavigation();
-  const { service } = route.params;
+  const { service, reviews } = route.params;
   const [image, setImage] = useState('');
   const [fullService, setFullService] = useState();
   const [loaded, setLoaded] = useState(false);
+  const [hours, setHours] = useState('');
+  const now = new Date();
 
   const getData = async () => {
     const querySnapshot2 = await getDoc(doc(db, 'Test', service.name));
     let fullService = querySnapshot2.data();
     setFullService(fullService);
+    const hours = fullService.hours.split(',');
+    var fullHours = hours[now.getDay() - 1];
+    var index = fullHours.indexOf(':'); // Gets the first index where a space occours
+    var text = fullHours.slice(index + 1); // Gets the text part
+    console.log(text);
+    setHours(text);
     console.log(fullService.name);
     setLoaded(true);
   };
@@ -57,9 +65,60 @@ export default function ServiceFocus() {
         backgroundColor: colors.white,
       }}
     >
-      <>{loaded ? <LoadedView service={fullService} /> : <LoadingView />}</>
+      <>
+        {loaded ? (
+          <LoadedView reviews={reviews} service={fullService} hours={hours} />
+        ) : (
+          <LoadingView />
+        )}
+      </>
     </SafeAreaView>
   );
+}
+
+function getResources(resource) {
+  const resourceNoSpaces = resource.replace(/ /g, '');
+  if (resourceNoSpaces == 'Shower') {
+    return <ResourceView color={colors.logoBlue} text='Shower' icon={icons.shower}></ResourceView>;
+  } else if (resourceNoSpaces == 'Bathroom') {
+    return (
+      <ResourceView color={colors.darkBlue} text='Bathroom' icon={icons.toilet}></ResourceView>
+    );
+  } else if (resourceNoSpaces == 'Haircuts') {
+    return (
+      <ResourceView color={colors.greenColor} text='Haircut' icon={icons.scissors}></ResourceView>
+    );
+  } else if (resourceNoSpaces == 'Gym') {
+    return <ResourceView color={colors.darkBlue} text='Gym' icon={icons.dumbbell}></ResourceView>;
+  } else if (resourceNoSpaces == 'RecCenter') {
+    return (
+      <ResourceView
+        color={colors.ebony_clay}
+        text='Rec Center'
+        icon={icons.personRunning}
+      ></ResourceView>
+    );
+  } else if (resourceNoSpaces == 'Pool') {
+    return <ResourceView color={colors.darkBlue} text='Pool' icon={icons.swimmer}></ResourceView>;
+  } else if (resourceNoSpaces == 'Nonprofit') {
+    return (
+      <ResourceView color={colors.greenColor} text='Non-Profit' icon={icons.smiley}></ResourceView>
+    );
+  } else if (resourceNoSpaces == 'Park') {
+    return <ResourceView color={colors.greenColor} text='Park' icon={icons.tree}></ResourceView>;
+  } else if (resourceNoSpaces == 'Laundry') {
+    return (
+      <ResourceView color={colors.darkBlue} text='Laundry' icon={icons.sparkles}></ResourceView>
+    );
+  } else if (resourceNoSpaces == 'Clothing') {
+    return (
+      <ResourceView color={colors.ebony_clay} text='Clothing' icon={icons.shirt}></ResourceView>
+    );
+  } else if (resourceNoSpaces == 'Hygiene') {
+    return (
+      <ResourceView color={colors.logoBlue} text='Hygiene' icon={icons.sparkles}></ResourceView>
+    );
+  }
 }
 
 const LoadingView = () => {
@@ -149,7 +208,7 @@ const ResourceView = ({ color, icon, text }) => {
   );
 };
 
-const LoadedView = ({ service }) => {
+const LoadedView = ({ service, hours, reviews }) => {
   var emptyNotes = false;
 
   if (service.notes == '') {
@@ -157,7 +216,18 @@ const LoadedView = ({ service }) => {
   } else {
     emptyNotes = false;
   }
+  var reviewNumber = 0;
+  var reviewTitle = 'No Reviews';
 
+  if (reviews == 'None') {
+  } else {
+    reviewNumber = reviews['Overall Rating'];
+    reviewTitle = reviews['Overall Rating'];
+  }
+
+  const resources = service.serviceDetails.split(',');
+  console.log(resources);
+  const navigation = useNavigation();
   return (
     <ScrollView backgroundColor={colors.darkBlue}>
       <Image
@@ -262,14 +332,10 @@ const LoadedView = ({ service }) => {
               <StarRating
                 style={{ paddingTop: 4 }}
                 starStyle={{ marginHorizontal: 0 }}
-                rating={0}
+                rating={reviewNumber}
                 maxStars={5}
                 color={colors.starYellow}
                 starSize={20}
-                onChange={() => {
-                  console.log('Test');
-                }}
-                animationConfig={{ duration: 0, scale: 1 }}
               />
               <Text
                 style={{
@@ -281,7 +347,7 @@ const LoadedView = ({ service }) => {
                 }}
                 numberOfLines={1}
               >
-                No Reviews
+                {reviewTitle}
               </Text>
             </HStack>
             <HStack>
@@ -308,7 +374,7 @@ const LoadedView = ({ service }) => {
                 }}
                 numberOfLines={1}
               >
-                4:30 AM - 9:00 PM
+                {hours ? hours : 'No Hours Available'}
               </Text>
             </HStack>
             <HStack style={{ alignSelf: 'center', width: '90%', paddingTop: 10 }}>
@@ -328,6 +394,7 @@ const LoadedView = ({ service }) => {
                 text={'Reviews'}
                 onPress={() => {
                   console.log('Reviews');
+                  navigation.navigate('Reviews');
                 }}
               ></ButtonView>
               <Spacer></Spacer>
@@ -379,21 +446,9 @@ const LoadedView = ({ service }) => {
         >
           <ScrollView style={{ direction: 'ltr' }}>
             <HStack paddingLeft={5} paddingTop={2} height={110} alignItems={'center'} space={5}>
-              <ResourceView
-                color={colors.logoBlue}
-                text='Shower'
-                icon={icons.shower}
-              ></ResourceView>
-              <ResourceView
-                color={colors.darkBlue}
-                text='Bathroom'
-                icon={icons.toilet}
-              ></ResourceView>
-              <ResourceView
-                color={colors.logoBlue}
-                text='Rec Center'
-                icon={icons.personRunning}
-              ></ResourceView>
+              {resources[0] ? getResources(resources[0]) : <View></View>}
+              {resources[1] ? getResources(resources[1]) : <View></View>}
+              {resources[2] ? getResources(resources[2]) : <View></View>}
             </HStack>
           </ScrollView>
         </View>

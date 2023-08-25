@@ -14,6 +14,11 @@ import EditIdea from '../screens/Ideas/EditIdea';
 import CreateIdea from '../screens/Ideas/CreateIdea';
 import HomeList from '../screens/Home/HomeList';
 import ServiceFocus from '../screens/Home/ServiceFocus';
+import { MainAuth } from '../screens/Auth/MainAuth';
+import { Login } from '../screens/Auth/Login';
+import { About } from '../screens/Auth/AboutPage';
+import Favorites from '../screens/Home/Favorites';
+import { Reviews } from '../screens/Home/Reviews';
 // returns an object containing 2 properties: Screen and Navigator.
 // Both are used for configuring the navigator.
 
@@ -46,12 +51,81 @@ export default function MainNavigator() {
       component: Main,
     },
     {
+      screenName: 'MainAuth',
+      component: MainAuth,
+      options: {
+        headerTransparent: 'true',
+        headerShown: true,
+        title: '',
+      },
+    },
+    {
+      screenName: 'Login',
+      component: Login,
+      options: {
+        headerTransparent: 'true',
+        headerShown: true,
+        title: '',
+      },
+    },
+    {
       screenName: 'Home List',
       component: HomeList,
       options: {
         headerTransparent: 'true',
         headerShown: false,
         animation: 'none',
+      },
+    },
+    {
+      screenName: 'About',
+      component: About,
+      options: {
+        headerTransparent: 'true',
+        headerShown: true,
+        title: 'About',
+        headerTintColor: colors.white,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerStyle: {
+          backgroundColor: colors.darkBlue,
+        },
+      },
+    },
+    {
+      screenName: 'Favorites',
+      component: Favorites,
+      options: {
+        headerTransparent: 'false',
+        headerShown: true,
+        headerTintColor: colors.white,
+        title: 'Favorites',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerStyle: {
+          backgroundColor: colors.darkBlue,
+        },
+      },
+    },
+    {
+      screenName: 'Reviews',
+      component: Reviews,
+      options: {
+        headerTransparent: 'false',
+        headerShown: true,
+        headerTintColor: colors.white,
+        title: 'Reviews',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerStyle: {
+          backgroundColor: colors.darkBlue,
+        },
       },
     },
   ];

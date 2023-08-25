@@ -8,35 +8,60 @@ import {
   WarningOutlineIcon,
   Pressable,
   Image,
+  Text,
+  Collapse,
+  Alert,
+  HStack,
+  IconButton,
+  CloseIcon,
+  Box,
+  View,
+  Spacer,
 } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useNavigation } from '@react-navigation/native';
 import * as EmailValidator from 'email-validator';
-import { icons, colors } from '../../utils/ui-constants';
+import { icons, colors, fontNames } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
 import { useAuth } from '../../context/AuthenticationContext';
 import LoadingButton from '../buttons/loading-button';
 import TextButton from '../buttons/text-button';
 import Logo from '../../../assets/logo-full-lower.png';
 import { Main } from '../../screens/Main';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 function LoginForm() {
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [show, setShow] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
+
   const [loading, setLoading] = React.useState(false);
   const { onLogin, isAuthenticated } = useAuth();
   const navigation = useNavigation();
-  const auth = useAuth();
+  const [ErrorMessage, setMessage] = React.useState('');
+  const auth = getAuth();
 
-  const forgotPassword = () => {
-    navigation.navigate('ForgotPassword');
-  };
-  const createAccount = () => {
-    navigation.navigate('Register');
-  };
+  async function signIn() {
+    if (formData.email === '' || formData.password === '') {
+      console.log('Email and password are mandatory.');
 
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      console.log('Signed In');
+
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      console.log(error);
+      setAlert(true);
+      setMessage('Invalid Username / Password');
+      setLoading(false);
+    }
+  }
   const validate = () => {
     const newErrors = { ...errors };
 
@@ -68,9 +93,7 @@ function LoginForm() {
   const valid = async () => {
     console.log('Submitted');
     setLoading(true);
-    onLogin(formData.email, formData.password).then(() => setLoading(false));
-    if (isAuthenticated) navigation.navigate('Main');
-    else invalid();
+    signIn();
   };
 
   const invalid = () => {
@@ -78,12 +101,55 @@ function LoginForm() {
   };
 
   return (
-    <Square width='80%' height='50%' bg='white' rounded='lg' alignItems='center'>
-      <VStack style={loginStyles.container} width='100%' alignItems='center'>
-        <Image style={loginStyles.logo} source={Logo} alt='Logo' />
+    <Square width='100%' height='100%' bg='white' rounded='lg' alignItems='center'>
+      <Collapse isOpen={alert}>
+        <Alert minW='350' maxW='400' status='error'>
+          <VStack space={1} flexShrink={1} w='100%'>
+            <HStack flexShrink={1} space={2} alignItems='center' justifyContent='space-between'>
+              <HStack flexShrink={1} space={2} alignItems='center'>
+                <Alert.Icon />
+                <Text
+                  fontSize='md'
+                  fontWeight='medium'
+                  _dark={{
+                    color: 'coolGray.800',
+                  }}
+                >
+                  Login Error
+                </Text>
+              </HStack>
+              <IconButton
+                variant='unstyled'
+                _focus={{
+                  borderWidth: 0,
+                }}
+                icon={<CloseIcon size='3' />}
+                _icon={{
+                  color: 'coolGray.600',
+                }}
+                onPress={() => setAlert(false)}
+              />
+            </HStack>
+            <Box
+              pl='6'
+              _dark={{
+                _text: {
+                  color: 'coolGray.600',
+                },
+              }}
+            >
+              {ErrorMessage}
+            </Box>
+          </VStack>
+        </Alert>
+      </Collapse>
+      <View style={{ height: 10 }}></View>
+      <VStack space={5} style={loginStyles.container} width='100%' alignItems='center'>
         <FormControl style={loginStyles.formControl} isRequired isInvalid={'email' in errors}>
+          <Text style={loginStyles.welcome}>Email</Text>
           <Input
             style={textStyles.body}
+            placeholder='Email'
             InputLeftElement={
               <Icon
                 as={
@@ -96,7 +162,6 @@ function LoginForm() {
                 }
               />
             }
-            placeholder='Email'
             onChangeText={(value) => setData({ ...formData, email: value })}
           />
           <FormControl.ErrorMessage
@@ -108,6 +173,8 @@ function LoginForm() {
           </FormControl.ErrorMessage>
         </FormControl>
         <FormControl style={loginStyles.formControl} isRequired isInvalid={'password' in errors}>
+          <Text style={loginStyles.welcome}>Password</Text>
+
           <Input
             style={textStyles.body}
             type={show ? 'text' : 'password'}
@@ -149,32 +216,21 @@ function LoginForm() {
         </FormControl>
         <LoadingButton
           style={loginStyles.mainButton}
-          text='Sign In'
-          bgColor={colors.robin_egg_blue}
+          text='Login'
+          bgColor={colors.logoBlue}
           onPress={onSubmit}
           isLoading={loading}
           loadingText='Signing In'
         />
-        <TextButton
-          style={loginStyles.textButton}
-          text='Forgot Password'
-          onPress={forgotPassword}
-          textStyle={textStyles.gray_text_button}
-        />
-        <TextButton
-          style={loginStyles.textButton}
-          text='Create an account'
-          onPress={createAccount}
-          textStyle={textStyles.robin_text_button}
-        />
       </VStack>
+      <Spacer></Spacer>
     </Square>
   );
 }
 
 const loginStyles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: 300,
     position: 'relative',
   },
   textButton: {
@@ -191,6 +247,12 @@ const loginStyles = StyleSheet.create({
     flex: 2,
     width: '75%',
     resizeMode: 'contain',
+  },
+  welcome: {
+    paddingTop: 10,
+    fontFamily: fontNames.Poppins_Bold,
+    color: colors.black,
+    fontSize: 24,
   },
 });
 

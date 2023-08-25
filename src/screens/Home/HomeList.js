@@ -21,41 +21,237 @@ export default function HomeList() {
   var DATA = [
     {
       title: 'Showers',
-      data: ['Pizza', 'Burger', 'Risotto'],
+      data: [],
     },
     {
       title: 'Clothing',
-      data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+      data: [],
     },
     {
       title: 'Non-Profit',
-      data: ['Water', 'Coke', 'Beer'],
+      data: [],
     },
   ];
 
   const route = useRoute();
-  const { services } = route.params;
+  const { services, reviews } = route.params;
   const [Services, setServcices] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [showerActive, setShowerActive] = useState(true);
+  const [clothingActive, setClothingActive] = useState(true);
+  const [nonProfitActive, setNonProfit] = useState(true);
 
   useEffect(() => {
     for (let i = 0; i < DATA.length; i++) {
       DATA[i].data = services[i];
     }
-    console.log('Test');
     setServcices(DATA);
+    setFilteredDataSource(DATA);
   }, []);
 
-  function listItem(item) {
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = DATA;
+
+      const showers = Services[0].data.filter((item) => {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+
+      const clothing = Services[1].data.filter((item) => {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+
+      const nonProfit = Services[2].data.filter((item) => {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+
+      newData[0].data = showers;
+      newData[1].data = clothing;
+      newData[2].data = nonProfit;
+
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(Services);
+      setSearch(text);
+    }
+  };
+
+  function FilterStack() {
+    return (
+      <HStack paddingTop={3} justifyContent='center'>
+        <Button
+          backgroundColor={showerActive ? colors.logoBlue : colors.darkBlue}
+          shadow={2}
+          width={100}
+          height={35}
+          borderRadius={15}
+          _text={{
+            fontFamily: fontNames.Poppins_Regular,
+            fontSize: 14,
+            color: showerActive ? colors.white : colors.light_gray,
+            lineHeight: 17,
+          }}
+          onPress={() => {
+            if (showerActive) {
+              const newData = DATA;
+
+              newData[1].data = filteredDataSource[1].data;
+              newData[2].data = filteredDataSource[2].data;
+
+              setFilteredDataSource(newData);
+
+              setShowerActive(false);
+            } else {
+              const temp = filteredDataSource;
+              temp[0].data = Services[0].data;
+
+              setFilteredDataSource(temp);
+              setShowerActive(true);
+            }
+          }}
+          leftIcon={
+            <Icon
+              as={
+                <FontAwesomeIcon
+                  icon={showerActive ? icons.check : icons.x}
+                  size={14}
+                  color={showerActive ? colors.white : colors.light_gray}
+                />
+              }
+            />
+          }
+        >
+          Showers
+        </Button>
+        <Spacer />
+        <Button
+          backgroundColor={clothingActive ? colors.logoBlue : colors.darkBlue}
+          width={100}
+          height={35}
+          borderRadius={15}
+          shadow={2}
+          _text={{
+            fontFamily: fontNames.Poppins_Regular,
+            fontSize: 14,
+            color: clothingActive ? colors.white : colors.light_gray,
+            lineHeight: 16,
+          }}
+          onPress={() => {
+            if (clothingActive) {
+              const newData = DATA;
+
+              newData[0].data = filteredDataSource[0].data;
+              newData[2].data = filteredDataSource[2].data;
+
+              setFilteredDataSource(newData);
+
+              setClothingActive(false);
+            } else {
+              const temp = filteredDataSource;
+              temp[1].data = Services[1].data;
+
+              setFilteredDataSource(temp);
+              setClothingActive(true);
+            }
+          }}
+          leftIcon={
+            <Icon
+              as={
+                <FontAwesomeIcon
+                  icon={clothingActive ? icons.check : icons.x}
+                  size={14}
+                  color={clothingActive ? colors.white : colors.light_gray}
+                />
+              }
+            />
+          }
+        >
+          Clothing
+        </Button>
+        <Spacer />
+        <Button
+          backgroundColor={nonProfitActive ? colors.logoBlue : colors.darkBlue}
+          width={100}
+          height={35}
+          shadow={2}
+          borderRadius={15}
+          _text={{
+            fontFamily: fontNames.Poppins_Regular,
+            fontSize: 14,
+            color: nonProfitActive ? colors.white : colors.light_gray,
+            lineHeight: 17,
+          }}
+          onPress={() => {
+            if (nonProfitActive) {
+              const newData = DATA;
+
+              newData[0].data = filteredDataSource[0].data;
+              newData[1].data = filteredDataSource[1].data;
+
+              setFilteredDataSource(newData);
+
+              setNonProfit(false);
+            } else {
+              const temp = filteredDataSource;
+              temp[2].data = Services[2].data;
+
+              setFilteredDataSource(temp);
+              setNonProfit(true);
+            }
+          }}
+          leftIcon={
+            <Icon
+              as={
+                <FontAwesomeIcon
+                  icon={nonProfitActive ? icons.check : icons.x}
+                  size={14}
+                  color={nonProfitActive ? colors.white : colors.light_gray}
+                />
+              }
+            />
+          }
+        >
+          Non-Profit
+        </Button>
+      </HStack>
+    );
+  }
+
+  function listItem(item, index) {
     const navigation = useNavigation();
     var icon = icons.shower;
+
     if (item.serviceType == 'Shower') {
       icon = icons.shower;
     } else if (item.serviceType == 'Clothing') {
       icon = icons.shirt;
     } else {
       icon = icons.sparkles;
+    }
+
+    var reviewNumber = 0;
+    var reviewTitle = 'None';
+
+    if (reviews[index] == 'None') {
+    } else {
+      reviewNumber = reviews[index]['Overall Rating'];
+      reviewTitle = reviews[index]['Overall Rating'];
     }
 
     return (
@@ -65,6 +261,7 @@ export default function HomeList() {
             navigation.setOptions({ title: item.name });
             navigation.navigate('Service Details', {
               service: item,
+              reviews: reviews[index],
             });
           }}
         >
@@ -97,17 +294,14 @@ export default function HomeList() {
                   <StarRating
                     style={{ paddingTop: 3 }}
                     starStyle={{ marginHorizontal: 0 }}
-                    rating={0}
+                    rating={reviewNumber}
                     maxStars={5}
                     color={colors.starYellow}
                     starSize={20}
-                    onChange={() => {
-                      console.log('Test');
-                    }}
-                    animationConfig={{ duration: 0, scale: 1 }}
+                    onChange={() => {}}
                   />
                   <Text numberOfLines={1} style={styles.distanceText}>
-                    None
+                    {reviewTitle}
                   </Text>
                 </HStack>
               </HStack>
@@ -136,7 +330,7 @@ export default function HomeList() {
           borderRadius='10'
           py='1'
           px='2'
-          onChangeText={(text) => searchFilterFunction(text)}
+          onChangeText={(text) => searchFilterFunction(text, Services)}
           InputLeftElement={
             <Icon
               ml='2'
@@ -156,9 +350,9 @@ export default function HomeList() {
         <FilterStack />
         <SectionList
           style={styles.list}
-          sections={Services}
+          sections={filteredDataSource}
           keyExtractor={(item, index) => item.name + index}
-          renderItem={({ item }) => listItem(item)}
+          renderItem={({ item, index }) => listItem(item, index)}
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.header}>{title}</Text>
           )}
@@ -168,92 +362,6 @@ export default function HomeList() {
         <View style={{ height: 45 }} />
       </View>
     </SafeAreaView>
-  );
-}
-const searchFilterFunction = (text) => {
-  // Check if searched text is not blank
-  if (text) {
-    // Inserted text is not blank
-    // Filter the masterDataSource and update FilteredDataSource
-    const newData = Services.filter((item) => {
-      // Applying filter for the inserted text in search bar
-      const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-    setFilteredDataSource(newData);
-    setSearch(text);
-  } else {
-    // Inserted text is blank
-    // Update FilteredDataSource with masterDataSource
-    setFilteredDataSource(Services);
-    setSearch(text);
-  }
-};
-
-function FilterStack() {
-  return (
-    <HStack paddingTop={3} justifyContent='center'>
-      <Button
-        backgroundColor={colors.logoBlue}
-        shadow={2}
-        width={100}
-        height={35}
-        borderRadius={15}
-        _text={{
-          fontFamily: fontNames.Poppins_Regular,
-          fontSize: 14,
-          color: colors.white,
-          lineHeight: 17,
-        }}
-        onPress={() => {}}
-        leftIcon={
-          <Icon as={<FontAwesomeIcon icon={icons.check} size={14} color={colors.white} />} />
-        }
-      >
-        Showers
-      </Button>
-      <Spacer />
-      <Button
-        backgroundColor={colors.logoBlue}
-        width={100}
-        height={35}
-        borderRadius={15}
-        shadow={2}
-        _text={{
-          fontFamily: fontNames.Poppins_Regular,
-          fontSize: 14,
-          color: colors.white,
-          lineHeight: 16,
-        }}
-        onPress={() => {}}
-        leftIcon={
-          <Icon as={<FontAwesomeIcon icon={icons.check} size={14} color={colors.white} />} />
-        }
-      >
-        Clothing
-      </Button>
-      <Spacer />
-      <Button
-        backgroundColor={colors.logoBlue}
-        width={100}
-        height={35}
-        shadow={2}
-        borderRadius={15}
-        _text={{
-          fontFamily: fontNames.Poppins_Regular,
-          fontSize: 14,
-          color: colors.white,
-          lineHeight: 17,
-        }}
-        onPress={() => {}}
-        leftIcon={
-          <Icon as={<FontAwesomeIcon icon={icons.check} size={14} color={colors.white} />} />
-        }
-      >
-        Non-Profit
-      </Button>
-    </HStack>
   );
 }
 
@@ -275,7 +383,6 @@ function RadioButton() {
           color: colors.light_gray,
         }}
         onPress={() => {
-          console.log('You tapped the button!');
           navigation.navigate('HomeScreen');
         }}
         leftIcon={

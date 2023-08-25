@@ -26,6 +26,7 @@ import {
   faPenToSquare,
   faMap,
   faCompass,
+  faFaceSmile,
 } from '@fortawesome/free-regular-svg-icons';
 
 import * as Font from 'expo-font';
@@ -55,6 +56,13 @@ import {
   faGlobe,
   faToilet,
   faPersonRunning,
+  faCircleUser,
+  faRightFromBracket,
+  faQuestion,
+  faScissors,
+  faDumbbell,
+  faPersonSwimming,
+  faTree,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { useServices } from '../context/ServicesContext';
@@ -129,6 +137,14 @@ function App() {
             faToilet,
             faPersonRunning,
             faCompass,
+            faCircleUser,
+            faRightFromBracket,
+            faQuestion,
+            faScissors,
+            faFaceSmile,
+            faDumbbell,
+            faPersonSwimming,
+            faTree,
           ]
         );
 

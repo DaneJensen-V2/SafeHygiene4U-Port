@@ -68,6 +68,14 @@ const icons = {
   toilet: 'fa-solid fa-toilet',
   personRunning: 'fa-solid fa-person-running',
   compass: 'fa-regular fa-compass',
+  circleUser: 'fa-solid fa-circle-user',
+  logout: 'fa-solid fa-right-from-bracket',
+  question: 'fa-solid fa-question',
+  swimmer: 'fa-solid fa-person-swimming',
+  smiley: 'fa-regular fa-face-smile',
+  scissors: 'fa-solid fa-scissors',
+  tree: 'fa-solid fa-tree',
+  dumbbell: 'fa-solid fa-dumbbell',
 };
 
 const authenticationConstants = {
