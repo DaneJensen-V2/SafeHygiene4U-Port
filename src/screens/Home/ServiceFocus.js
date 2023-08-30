@@ -394,7 +394,10 @@ const LoadedView = ({ service, hours, reviews }) => {
                 text={'Reviews'}
                 onPress={() => {
                   console.log('Reviews');
-                  navigation.navigate('Reviews');
+                  navigation.navigate('Reviews'),
+                    {
+                      serviceName: service.name,
+                    };
                 }}
               ></ButtonView>
               <Spacer></Spacer>

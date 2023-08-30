@@ -57,7 +57,7 @@ function Onboarding() {
             rightButtonLabel='Continue'
             rightButtonPress={async () => {
               await AsyncStorage.setItem('ONBOARDED', 'true');
-              navigation.navigate('HomeScreen');
+              navigation.navigate('Home Screen');
             }}
           />
         </View>

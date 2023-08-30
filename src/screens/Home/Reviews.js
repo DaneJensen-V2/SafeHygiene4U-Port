@@ -1,114 +1,192 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Text,
   StyleSheet,
   View,
-  Text,
-  Dimensions,
-  Keyboard,
-  TouchableWithoutFeedback,
+  SafeAreaView,
   Image,
-  Linking,
+  Platform,
+  SectionList,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import {
-  Button,
-  HStack,
-  Input,
-  KeyboardAvoidingView,
-  keyboardDismissHandlerManager,
-  ScrollView,
-  Spacer,
-  VStack,
-} from 'native-base';
-import RepurpostGradient from '../../components/background-gradient';
-import { textStyles } from '../../styles/Styles';
-import LoginForm from '../../components/forms/login-form';
-import { AuthenticationContext } from '../../context/AuthenticationContext';
-import { colors, fontNames } from '../../utils/ui-constants';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Button, HStack, VStack, Icon, Input, Spacer } from 'native-base';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import MapView, { Marker } from 'react-native-maps';
+import StarRating from 'react-native-star-rating-widget';
+import { colors, fontNames, icons } from '../../utils/ui-constants';
+import { collection, doc, getDoc, getDocs, where, query } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
-// Shell for the "Login" auth screen
-export function Reviews({}) {
-  // TODO: AuthenticationContext working
-  // const { onLogin } = useContext(AuthenticationContext);
+// Details screen, just an extra screen to demo pushing and popping screens from a stack
+export default function Reviews() {
+  const route = useRoute();
+  const [Reviews, setReviews] = useState();
+  const [search, setSearch] = useState('');
+  const { serviceName } = route.params;
+  const [isLoading, setisLoading] = useState(true);
 
-  const navigation = useNavigation();
-  // REPLACE WITH AUTH
+  var DATA = [];
+  const getData = async () => {
+    setisLoading(true);
 
-  // contains buttons to sign in (which would first auth the user then take them to the main nav stack),
-  // to create an account, and go to
+    await getReviews();
+
+    setisLoading(false);
+    console.log('Got Data');
+  };
+
+  const getReviews = async () => {
+    var result = [];
+    console.log(serviceName);
+
+    const docRef = doc(db, 'Reviews', serviceName);
+
+    getDoc(docRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.data());
+          DATA = result;
+          console.log('DATA: ' + DATA);
+          setReviews(DATA);
+        } else {
+          console.log('No data available');
+        }
+      }, [])
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  //  console.log('RESULT' + result);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function ListItem(item) {
+    //console.log('LIST ITEMS: ' + Services[0].data);
+    const navigation = useNavigation();
+    var icon = icons.shower;
+    if (item.serviceType == 'Shower') {
+      icon = icons.shower;
+    } else if (item.serviceType == 'Clothing') {
+      icon = icons.shirt;
+    } else {
+      icon = icons.sparkles;
+    }
+
+    return (
+      <View style={styles.item}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.setOptions({ title: item.name });
+            navigation.navigate('Service Details', {
+              service: item,
+            });
+          }}
+        >
+          <HStack space={3}>
+            <View
+              style={{
+                backgroundColor: colors.darkBlue,
+                height: 65,
+                width: 65,
+                borderRadius: 65 / 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <FontAwesomeIcon icon={icon} size={35} color={colors.white} transform='right-1' />
+            </View>
+            <VStack space={1}>
+              <Text numberOfLines={1} style={styles.itemHeading}>
+                {item.name}
+              </Text>
+
+              <HStack space={5}>
+                <HStack space={1}>
+                  <FontAwesomeIcon icon={icons.locationDot} size={25} color={colors.light_gray} />
+                  <Text numberOfLines={1} style={styles.distanceText}>
+                    1.6 mi away
+                  </Text>
+                </HStack>
+                <HStack space={1}>
+                  <StarRating
+                    style={{ paddingTop: 3 }}
+                    starStyle={{ marginHorizontal: 0 }}
+                    rating={0}
+                    maxStars={5}
+                    color={colors.starYellow}
+                    starSize={20}
+                    onChange={() => {
+                      console.log('Test');
+                    }}
+                    animationConfig={{ duration: 0, scale: 1 }}
+                  />
+                  <Text numberOfLines={1} style={styles.distanceText}>
+                    None
+                  </Text>
+                </HStack>
+              </HStack>
+            </VStack>
+          </HStack>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView style={{ backgroundColor: colors.white }}>
-      <VStack alignItems='center'>
-        <HStack paddingX={8}>
-          <Image
-            source={require('../../../assets/logo-white.png')}
-            style={{ width: 140, height: 140 }}
-          />
-          <Spacer></Spacer>
-          <Image
-            source={require('../../../assets/ASU-logo.png')}
-            style={{ width: 200, height: 140 }}
-          />
-        </HStack>
-        <Text style={styles.welcome}> What is SafeHygiene4U?</Text>
-        <Text style={styles.body}>
-          SafeHygiene4U is an open source project designed to connect families experiencing
-          homelessness in the Phoenix area to safe hygiene services. Many of the services listed are
-          unknown to many and were discovered with the help of community partners from the public,
-          non-profit, and private sectors in the Phoenix area. It is our hope that by providing
-          information on showering, bathroom, and clothing services that are free or low-cost,
-          families experiencing homplessness will have access to services that were otherwise
-          forgotten.
-        </Text>
-        <Text style={styles.welcome}> What locations do we support?</Text>
-        <Text style={styles.body}>
-          We currently only support the Phoenix area but are always looking to add more locations
-        </Text>
-        <Text style={styles.welcome}> Who are we?</Text>
-        <Text style={styles.body}>
-          This app was created by a group of students from ASU with funding by Apple focused on
-          helping the homeless community by providing a source of information that will ease their
-          quality of lives. We make no money from this app.
-        </Text>
-        <Text style={styles.welcome}> Contact Us</Text>
-        <VStack space={0}>
-          <Text style={styles.body}>If you wish to partner with us, reach out to:</Text>
-          <Button
-            variant={'link'}
-            onPress={() => Linking.openURL('mailto:info.safehygiene4u@gmail.com')}
-            title=''
-          >
-            info.safehygiene4u@gmail.com
-          </Button>
-        </VStack>
-      </VStack>
-    </ScrollView>
+    <View style={{ backgroundColor: colors.white, flex: 1 }}>
+      <FlatList
+        style={styles.list}
+        data={Services}
+        keyExtractor={(item, index) => item.name + index}
+        renderItem={({ item }) => <ListItem {...item} />}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
+  mapStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   heading: {
     fontFamily: fontNames.Poppins_Bold,
-    color: colors.white,
+    color: colors.black,
     fontSize: 30,
   },
-  welcome: {
-    fontFamily: fontNames.Poppins_Bold,
+  itemHeading: {
+    fontFamily: fontNames.Poppins_SemiBold,
     color: colors.black,
+    fontSize: 22,
+  },
+  distanceText: {
+    fontFamily: fontNames.Poppins_Light,
+    color: colors.light_gray,
+    fontSize: 17,
+  },
+  item: {
+    marginVertical: 4,
+    height: 100,
+    justifyContent: 'center',
+  },
+  header: {
+    fontSize: 16,
+    backgroundColor: '#fff',
+    color: colors.light_gray,
+    fontFamily: fontNames.Poppins_Regular,
+  },
+  title: {
     fontSize: 24,
   },
-  body: {
-    fontFamily: fontNames.Poppins_Regular,
-    color: colors.black,
-    fontSize: 14,
-    paddingHorizontal: 5,
-    paddingTop: 5,
-    textAlign: 'center',
+  list: {
+    padding: 10,
   },
 });
