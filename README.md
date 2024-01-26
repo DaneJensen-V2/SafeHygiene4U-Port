@@ -1,4 +1,4 @@
-# Safe Hygiene 4U width="75" height ="75" style="border-radius:15%">  
+# Safe Hygiene 4U 
 ## _Android Application that helps homeless individuals find safe hygiene services in the Phoenix area_
 ### Safe Hygiene 4U app developed by ASU students as part of the Public Value Technology Accelerator with funding provided by Apple.
 
