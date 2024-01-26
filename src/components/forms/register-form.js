@@ -10,6 +10,8 @@ import {
   Image,
   Checkbox,
   Text,
+  View,
+  KeyboardAvoidingView,
 } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -18,10 +20,7 @@ import { textStyles } from '../../styles/Styles';
 import { useNavigation } from '@react-navigation/native';
 import LoadingButton from '../buttons/loading-button';
 import TextButton from '../buttons/text-button';
-import Logo from '../../../assets/logo-full-lower.png';
 import * as EmailValidator from 'email-validator';
-import { useAuth } from '../../context/AuthenticationContext';
-import { createAccountRequest } from '../../utils/pre-auth-utils';
 
 const RegisterForm = () => {
   const [formData, setFormData] = React.useState({});
@@ -115,9 +114,17 @@ const RegisterForm = () => {
   };
 
   return (
-    <Square width='80%' height='60%' bg='white' rounded='lg' alignItems='center'>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      width='80%'
+      height='55%'
+      bg='white'
+      rounded='lg'
+      alignItems='center'
+    >
       <VStack style={loginStyles.container} width='100%' alignItems='center'>
-        <Image style={loginStyles.logo} source={Logo} alt='Logo' paddingBottom={10} />
+        <View style={{ height: 20 }}></View>
+
         <FormControl
           style={loginStyles.formControl}
           isRequired
@@ -137,7 +144,7 @@ const RegisterForm = () => {
                 }
               />
             }
-            placeholder='Name'
+            placeholder='Username'
             onChangeText={(value) => setFormData({ ...formData, name: value })}
           />
           <FormControl.ErrorMessage
@@ -256,38 +263,11 @@ const RegisterForm = () => {
           style={loginStyles.formControl}
           isRequired
           isInvalid={checked === false && firstLoad === false}
-        >
-          <Checkbox
-            isChecked={checked}
-            onChange={() => {
-              setChecked(!checked);
-            }}
-          >
-            <Text
-              style={[textStyles.terms_and_conditions_text, { marginRight: -4 }]}
-              color={colors.ebony_clay}
-            >
-              I agree with the
-            </Text>
-            <Text
-              style={textStyles.terms_and_conditions_text}
-              color={colors.robin_egg_blue}
-              onPress={openTermsAndConditions}
-            >
-              terms and conditions.
-            </Text>
-          </Checkbox>
-          <FormControl.ErrorMessage
-            leftIcon={<WarningOutlineIcon size='sm' />}
-            _text={textStyles.body}
-          >
-            Please read and accept the terms and conditions
-          </FormControl.ErrorMessage>
-        </FormControl>
+        ></FormControl>
         <LoadingButton
           style={loginStyles.mainButton}
           text='Sign Up'
-          bgColor={colors.robin_egg_blue}
+          bgColor={colors.darkBlue}
           onPress={onSubmit}
           isLoading={loading}
           loadingText='Signing Up'
@@ -300,7 +280,7 @@ const RegisterForm = () => {
           textStyle={textStyles.robin_text_button}
         />
       </VStack>
-    </Square>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -312,9 +292,7 @@ const loginStyles = StyleSheet.create({
   textButton: {
     flex: 1,
   },
-  mainButton: {
-    flex: 2,
-  },
+  mainButton: {},
   formControl: {
     flex: 1,
     paddingHorizontal: 25,

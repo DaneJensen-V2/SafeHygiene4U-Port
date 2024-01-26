@@ -9,6 +9,8 @@ import {
   SectionList,
   TouchableOpacity,
   FlatList,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button, HStack, VStack, Icon, Input, Spacer } from 'native-base';
@@ -18,14 +20,21 @@ import StarRating from 'react-native-star-rating-widget';
 import { colors, fontNames, icons } from '../../utils/ui-constants';
 import { collection, doc, getDoc, getDocs, where, query } from 'firebase/firestore';
 import { db } from '../../firebase-config';
+import { UserData } from '../../context/userData';
+import { useAuthentication } from '../../context/useAuthentication';
+import { getAuth } from 'firebase/auth';
 
 // Details screen, just an extra screen to demo pushing and popping screens from a stack
 export default function Reviews() {
   const route = useRoute();
+  const navigation = useNavigation();
   const [Reviews, setReviews] = useState();
   const [search, setSearch] = useState('');
   const { serviceName } = route.params;
   const [isLoading, setisLoading] = useState(true);
+  const { user } = useAuthentication();
+  const auth = getAuth();
+  const userData = UserData();
 
   var DATA = [];
   const getData = async () => {
@@ -47,8 +56,8 @@ export default function Reviews() {
       .then((snapshot) => {
         if (snapshot.exists()) {
           // console.log(snapshot.data());
-          DATA = result;
-          console.log('DATA: ' + DATA);
+          DATA = snapshot.data().allReviews;
+          console.log('DATA: ' + DATA[0].date);
           setReviews(DATA);
         } else {
           console.log('No data available');
@@ -65,86 +74,69 @@ export default function Reviews() {
     getData();
   }, []);
 
+  function addReview() {
+    console.log('Add Review');
+    navigation.navigate('Add Review', {
+      serviceName: serviceName,
+    });
+  }
+
   function ListItem(item) {
-    //console.log('LIST ITEMS: ' + Services[0].data);
-    const navigation = useNavigation();
-    var icon = icons.shower;
-    if (item.serviceType == 'Shower') {
-      icon = icons.shower;
-    } else if (item.serviceType == 'Clothing') {
-      icon = icons.shirt;
-    } else {
-      icon = icons.sparkles;
-    }
-
     return (
-      <View style={styles.item}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.setOptions({ title: item.name });
-            navigation.navigate('Service Details', {
-              service: item,
-            });
-          }}
-        >
+        <View style={styles.item}>
           <HStack space={3}>
-            <View
-              style={{
-                backgroundColor: colors.darkBlue,
-                height: 65,
-                width: 65,
-                borderRadius: 65 / 2,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <FontAwesomeIcon icon={icon} size={35} color={colors.white} transform='right-1' />
-            </View>
-            <VStack space={1}>
-              <Text numberOfLines={1} style={styles.itemHeading}>
-                {item.name}
-              </Text>
+            <FontAwesomeIcon icon={icons.circleUser} size={65} color={colors.black} />
 
-              <HStack space={5}>
-                <HStack space={1}>
-                  <FontAwesomeIcon icon={icons.locationDot} size={25} color={colors.light_gray} />
-                  <Text numberOfLines={1} style={styles.distanceText}>
-                    1.6 mi away
-                  </Text>
-                </HStack>
-                <HStack space={1}>
-                  <StarRating
-                    style={{ paddingTop: 3 }}
-                    starStyle={{ marginHorizontal: 0 }}
-                    rating={0}
-                    maxStars={5}
-                    color={colors.starYellow}
-                    starSize={20}
-                    onChange={() => {
-                      console.log('Test');
-                    }}
-                    animationConfig={{ duration: 0, scale: 1 }}
-                  />
-                  <Text numberOfLines={1} style={styles.distanceText}>
-                    None
-                  </Text>
-                </HStack>
-              </HStack>
+            <VStack space={0}>
+              <Text numberOfLines={1} style={styles.itemHeading}>
+                {item.user}
+              </Text>
+              <Text numberOfLines={1} style={styles.header}>
+                {item.date}
+              </Text>
             </VStack>
           </HStack>
-        </TouchableOpacity>
-      </View>
+          <View style={{ height: 5 }} />
+          <StarRating
+            style={{ paddingTop: 3, paddingLeft: 5 }}
+            starStyle={{ marginHorizontal: 0 }}
+            rating={item.rating}
+            maxStars={5}
+            color={colors.starYellow}
+            starSize={25}
+            onChange={() => {
+              console.log('Test');
+            }}
+            animationConfig={{ duration: 0, scale: 1 }}
+          />
+          <Text style={styles.content}>{item.content}</Text>
+        </View>
     );
   }
 
   return (
-    <View style={{ backgroundColor: colors.white, flex: 1 }}>
+    <View style={{ backgroundColor: colors.white, flex: 1, padding: 5 }}>
       <FlatList
         style={styles.list}
-        data={Services}
-        keyExtractor={(item, index) => item.name + index}
+        data={Reviews}
+        keyExtractor={(item, index) => item.user + index}
         renderItem={({ item }) => <ListItem {...item} />}
+        ItemSeparatorComponent={() => {
+          return <View style={{ height: 1, backgroundColor: colors.light_gray, margin: 5 }} />;
+        }}
       />
+      <Button
+        alignSelf='center'
+        height={60}
+        width={60}
+        borderRadius={30}
+        backgroundColor={colors.darkBlue}
+        marginBottom={10}
+        onPress={addReview}
+        startIcon={
+          <Icon as={<FontAwesomeIcon icon={icons.plus} size={25} color={colors.white} />} />
+        }
+      ></Button>
     </View>
   );
 }
@@ -165,7 +157,7 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontFamily: fontNames.Poppins_SemiBold,
     color: colors.black,
-    fontSize: 22,
+    fontSize: 20,
   },
   distanceText: {
     fontFamily: fontNames.Poppins_Light,
@@ -174,14 +166,19 @@ const styles = StyleSheet.create({
   },
   item: {
     marginVertical: 4,
-    height: 100,
     justifyContent: 'center',
   },
   header: {
     fontSize: 16,
     backgroundColor: '#fff',
-    color: colors.light_gray,
+    color: colors.black,
+    fontFamily: fontNames.Poppins_Light,
+  },
+  content: {
+    fontSize: 14,
+    color: colors.black,
     fontFamily: fontNames.Poppins_Regular,
+    padding: 5,
   },
   title: {
     fontSize: 24,

@@ -10,11 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button, keyboardDismissHandlerManager, Spacer } from 'native-base';
-import RepurpostGradient from '../../components/background-gradient';
-import { textStyles } from '../../styles/Styles';
-import LoginForm from '../../components/forms/login-form';
-import { AuthenticationContext } from '../../context/AuthenticationContext';
-import { colors, fontNames } from '../../utils/ui-constants';
+import { colors, fontNames, icons } from '../../utils/ui-constants';
 
 // Shell for the "Login" auth screen
 export function MainAuth({}) {
@@ -51,6 +47,10 @@ export function MainAuth({}) {
         w={'80%'}
         backgroundColor={colors.logoBlue}
         _text={{ fontFamily: fontNames.Poppins_Regular, color: colors.white, fontSize: 14 }}
+        onPress={() => {
+          navigation.navigate('Register');
+          console.log('Register');
+        }}
       >
         Sign Up now
       </Button>

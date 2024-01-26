@@ -55,8 +55,7 @@ export default function Menu(onItemSelected, test) {
   const auth = getAuth();
   const userData = UserData();
 
-  console.log(test);
-  console.log('Joe');
+
   return (
     <ScrollView scrollsToTop={false} style={styles.menu}>
       <VStack style={styles.avatarContainer}>

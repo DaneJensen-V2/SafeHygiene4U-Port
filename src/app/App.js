@@ -64,11 +64,9 @@ import {
   faPersonSwimming,
   faTree,
 } from '@fortawesome/free-solid-svg-icons';
-import { AuthenticationContextProvider, useAuth } from '../context/AuthenticationContext';
 import { useServices } from '../context/ServicesContext';
 import AuthNavigator from '../navigation/AuthNavigator';
 import MainNavigator from '../navigation/MainNavigator';
-import RepurpostBrandTheme from '../context/repurpost-brand-theme';
 
 // keep the splash screen visible until we have completed all async processing
 SplashScreen.preventAutoHideAsync();
@@ -201,17 +199,15 @@ function App() {
   if (!appIsReady) return null;
 
   // otherwise, return the actual app content
-  return <>{onboarded ? <MainNavigator /> : <AuthNavigator />}</>;
+  return <>{onboarded ? <MainNavigator /> : <MainNavigator />}</>;
 }
 
 function AppWithContext() {
   return (
     <NavigationContainer>
-      <AuthenticationContextProvider>
-        <NativeBaseProvider theme={RepurpostBrandTheme}>
-          <App />
-        </NativeBaseProvider>
-      </AuthenticationContextProvider>
+      <NativeBaseProvider>
+        <App />
+      </NativeBaseProvider>
     </NavigationContainer>
   );
 }

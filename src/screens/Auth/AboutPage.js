@@ -20,10 +20,7 @@ import {
   Spacer,
   VStack,
 } from 'native-base';
-import RepurpostGradient from '../../components/background-gradient';
-import { textStyles } from '../../styles/Styles';
-import LoginForm from '../../components/forms/login-form';
-import { AuthenticationContext } from '../../context/AuthenticationContext';
+
 import { colors, fontNames } from '../../utils/ui-constants';
 
 // Shell for the "Login" auth screen

@@ -24,10 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as EmailValidator from 'email-validator';
 import { icons, colors, fontNames } from '../../utils/ui-constants';
 import { textStyles } from '../../styles/Styles';
-import { useAuth } from '../../context/AuthenticationContext';
 import LoadingButton from '../buttons/loading-button';
-import TextButton from '../buttons/text-button';
-import Logo from '../../../assets/logo-full-lower.png';
 import { Main } from '../../screens/Main';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -38,7 +35,6 @@ function LoginForm() {
   const [alert, setAlert] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
-  const { onLogin, isAuthenticated } = useAuth();
   const navigation = useNavigation();
   const [ErrorMessage, setMessage] = React.useState('');
   const auth = getAuth();

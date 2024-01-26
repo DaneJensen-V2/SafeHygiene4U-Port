@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Button, Container } from 'native-base';
 import { Text } from 'react-native';
-import {textStyles} from '../../styles/Styles';
+import { textStyles } from '../../styles/Styles';
 import { fontNames, colors } from '../../utils/ui-constants';
 
 // Variation of the Main Button that can show a loading variation with a spinner
@@ -31,7 +31,6 @@ function LoadingButton({ text, onPress, bgColor, loadingText, isLoading }) {
         shadow='4'
         variant='solid'
         marginBottom={2}
-        marginTop={2}
         height={50}
         width={200}
         onPress={handleButtonPress}
