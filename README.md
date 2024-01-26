@@ -1,40 +1,11 @@
-# Summary
+# Safe Hygiene 4U <img src="Screenshots/Icon.png" width="75" height ="75" style="border-radius:15%">  
+## _iOS Application that helps homeless individuals find safe hygiene services in the Phoenix area_
+### Safe Hygiene 4U app developed by ASU students as part of the Public Value Technology Accelerator with funding provided by Apple.
 
-Creation of a mobile App compatible with Android/iOS to be able to perform the existing functions or actions in our platform from the mobile and simplify the daily work of our users.
-Some of these actions include:
+## Main Features
+- Features map that lists services near your location, shows service type/rating
+- Users can Tap on service to show details and filter the map/list to only show certain services
+- Displays every service in a searchable list sorted by distance from the user
+- Details on every service are displayed after being tapped including Info Address, Rating, Hours, Phone Number, Website, Available Resources, Directions, and any additional notes
+- Users can login to save services for easy access later and to review other services 
 
-- **Create a Idea**
-- **User Profiles and settings**
-- **File Uploading** and **external content** inside Repurpost’s resource center.
-- Manage **Smart Content** (create, share, metrics,...)
-- **Social publication** support to Instagram carrousel and Instagram personal publication
-
----
-
-# Requirements
-
-### Prerequisites
-
-- Experience with: Git, JSON APIs, Node/npm
-
-### Environment
-
-- Programming language: _Javascript_ (Preferred React Native). We welcome suggestions to make it cross-platform (e.g. Flutter).
-- Source control system: Git
-- Project Management - Agile methodologies: Trello (Kanban with some - Scrum initiatives: user stories, task, sprint)
-- Communication platform: Slack (faster) and email.
-- Wireframe and diagrams: Figma/Adobe, [Draw.io](http://Draw.io "‌")
-
-### Student work and learning
-
-- API interaction (Repurpost has a private RESTFul API & JWT for authentication)
-- Document reasoning behind product creation & process steps
-- Co-create a product roadmap. We will provide the use cases and students will create implementation stories.
-
-# Additional doc
-
-- Recommended UI component library: [https://rn.mobile.ant.design/](https://rn.mobile.ant.design/ "smartCard-inline")
-- Platform access (Freemium -> Custom plan):
-  [https://repurpost.com/pricing-plans/](https://repurpost.com/pricing-plans/ "‌")
-
-‌
